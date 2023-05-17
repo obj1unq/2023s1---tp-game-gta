@@ -1,14 +1,15 @@
-# Nombre del juego (<- borrar y completar)
+# Nombre a definir (Qrash?)
 
-## Equipo de desarrollo
+## Equipo de desarrollo GTA
 
-- Alguien
-- Persona
-- etc.
+- Gabriela Fascetta
+- Tomas Dominguez
+- Alejandra Besel
+
 
 ## Capturas
 
-(agregar)
+**proximamente**
 
 ## Reglas de Juego / Instrucciones
 
@@ -17,6 +18,6 @@
 
 ## Otros
 
-- Curso/Facultad
+- Curso/Facultad UNQ
 - Versión de wollok
 - Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
