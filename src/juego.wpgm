@@ -1,8 +1,15 @@
 import wollok.game.*
-import pepita.*
+import crash.*
 
 program juego {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+	//tablero
+	game.title("Crash")
+	game.height(15)
+	game.width(21)
+	game.boardGround('campo.jpg')
+	//personajes y acciones
+	//game.addVisual(crash)
+	//game.addVisual(pared)
+
 	game.start()
 }
