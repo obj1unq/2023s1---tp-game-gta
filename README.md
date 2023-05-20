@@ -3,7 +3,7 @@
 ## Equipo de desarrollo GTA
 
 - Gabriela Fascetta
-- Tomas Dominguez
+- Tomás Domínguez
 - Alejandra Besel
 
 
