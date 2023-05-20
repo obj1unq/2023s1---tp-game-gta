@@ -9,7 +9,7 @@
 
 ## Capturas
 
-**proximamente**   / En desarrollo**
+**proximamente**   / En desarrollo
 
 ## Reglas de Juego / Instrucciones
 
