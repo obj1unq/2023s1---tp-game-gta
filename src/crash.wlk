@@ -2,15 +2,25 @@ import wollok.game.*
 import vida.*
 
 object crash {
-	const posicionInicial = game.at(1,1)
-	const posicionSalto = game.at(1, 4)
+	const posicionInicial = game.at(1,2)
+	const posicionSalto = game.at(1, 5)
 	var property position = posicionInicial
-
-	method image() = "crash.png"
+	var property image = "crash.png"
+	const property vidas = #{}
+	
+	method salto() {
+		self.position(posicionSalto)
+		self.image("jump-right.png")
+	}
+	
+	method estadoInicial() {
+		self.position(posicionInicial)
+		self.image("crash.png")
+	}
 	
 	method saltar() {
-		self.position(posicionSalto)
-	//	game.onTick(100, "SALTO", {self.position(posicionInicial)})
+		self.salto()
+		game.schedule(250, {self.estadoInicial()})
 	}
 	
 	method restarVida(cantidad) {
