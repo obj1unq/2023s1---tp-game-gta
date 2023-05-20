@@ -1,4 +1,4 @@
-# Nombre a definir (Qrash?)
+# Nombre a definir (Qrash)
 
 ## Equipo de desarrollo GTA
 
@@ -9,7 +9,7 @@
 
 ## Capturas
 
-**proximamente**
+**proximamente**  **En desarrollo**
 
 ## Reglas de Juego / Instrucciones
 
