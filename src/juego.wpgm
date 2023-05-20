@@ -8,7 +8,8 @@ program juego {
 	game.width(21)
 	game.boardGround('campo.jpg')
 	//personajes y acciones
-	//game.addVisual(crash)
+	game.addVisual(crash)
+	keyboard.space().onPressDo{crash.saltar()}
 	//game.addVisual(pared)
 
 	game.start()
