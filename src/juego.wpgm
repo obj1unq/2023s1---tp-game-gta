@@ -10,6 +10,7 @@ program juego {
 	//personajes y acciones
 	game.addVisual(crash)
 	keyboard.space().onPressDo{crash.saltar()}
+	keyboard.s().onPressDo{crash.estadoInicial()}
 	//game.addVisual(pared)
 
 	game.start()
