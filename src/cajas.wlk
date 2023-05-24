@@ -1,6 +1,5 @@
 import wollok.game.*
 import crash.*
-import randomizer.*
 import posiciones.*
 import escenario.*
 import vida.*

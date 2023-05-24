@@ -13,7 +13,8 @@ object crash {
 	method salto() {
 		game.removeTickEvent("CORRER")
 		self.position(posicionSalto)
-		self.image(saltando.image())
+		self.cambiarEstado()
+		//self.image(saltando.image())
 	}
 	
 	method estadoInicial() {
