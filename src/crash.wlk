@@ -3,11 +3,11 @@ import vida.*
 import estados.*
 
 object crash {
-	const posicionInicial = game.at(1,2)
+	const posicionInicial = game.at(1, 2)
 	const posicionSalto = game.at(1, 5)
 	var property position = posicionInicial
 	var property image = "crash-1.png"
-	const property vidas = #{}
+	const property vidas = #{} // 4 objetos vidas
 	var property estadoActual = reposo
 	
 	method salto() {

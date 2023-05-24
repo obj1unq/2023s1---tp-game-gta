@@ -1,6 +1,7 @@
 import wollok.game.*
 import crash.*
 import escenario.*
+import obstaculos.*
 
 program juego {
 	//tablero
