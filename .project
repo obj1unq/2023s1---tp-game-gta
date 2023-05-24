@@ -32,36 +32,4 @@
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 		<nature>org.uqbar.project.wollok.wollokNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>assets/crash-1.png</name>
-			<type>1</type>
-			<location>/Users/alejandrabesel/Downloads/drive-download-20230522T005823Z-001/crash-1.png</location>
-		</link>
-		<link>
-			<name>assets/crash-2.png</name>
-			<type>1</type>
-			<location>/Users/alejandrabesel/Downloads/drive-download-20230522T005823Z-001/crash-2.png</location>
-		</link>
-		<link>
-			<name>assets/crash-3.png</name>
-			<type>1</type>
-			<location>/Users/alejandrabesel/Downloads/drive-download-20230522T005823Z-001/crash-3.png</location>
-		</link>
-		<link>
-			<name>assets/crash-salto-1.png</name>
-			<type>1</type>
-			<location>/Users/alejandrabesel/Downloads/drive-download-20230522T005823Z-001/crash-salto-1.png</location>
-		</link>
-		<link>
-			<name>assets/crash-salto-2.png</name>
-			<type>1</type>
-			<location>/Users/alejandrabesel/Downloads/drive-download-20230522T005823Z-001/crash-salto-2.png</location>
-		</link>
-		<link>
-			<name>assets/enemigo.png</name>
-			<type>1</type>
-			<location>/Users/alejandrabesel/Downloads/drive-download-20230522T005823Z-001/enemigo.png</location>
-		</link>
-	</linkedResources>
 </projectDescription>

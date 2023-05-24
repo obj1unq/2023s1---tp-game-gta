@@ -1,5 +1,6 @@
 import wollok.game.*
 import crash.*
+import escenario.*
 import obstaculos.*
 
 program juego {
@@ -12,7 +13,10 @@ program juego {
 	game.addVisual(crash)
 	keyboard.space().onPressDo{crash.saltar()}
 	keyboard.s().onPressDo{crash.estadoInicial()}
-	//game.addVisual(pared)
-
+	
+	//escenario
+	//game.onTick (4000, "GENERAR_NUBE", {nubeManager.generar(); pisoFactory.generar()})
+	game.onTick(180, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
+	
 	game.start()
 }
