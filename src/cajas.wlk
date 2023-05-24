@@ -22,8 +22,6 @@ object cajaManzanaFactory {
 }
 
 //********** manejador visual de cajas ***************
-// en el program voy a tener cada cierto tiempo un generar con maximo de 5
-//cajaManager.generar(randomizer.randomCajaFactory())
 object cajaManager {
 	const cajasFactories = [cajaBombaFactory,cajaVidaFactory,cajaManzanaFactory]
 	

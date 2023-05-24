@@ -19,7 +19,7 @@ program juego {
 	game.onTick (4000, "GENERAR_NUBES", {nubeManager.generar()})
 	game.onTick (4000, "GENERAR_ELEMENTOS", {obstaculosManager.generar()})
 	game.onTick(7000, "GENERAR_CAJAS", {cajaManager.generar()})
-	game.onTick(300, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
+	game.onTick(200, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
 	
 	game.start()
 }
