@@ -1,4 +1,6 @@
 import wollok.game.*
+import posiciones.*
+import escenario.*
 
 // #{agua, lava, escalon, enemigo}  //cajaConBomba
 
@@ -36,18 +38,19 @@ object obstaculosManager {
 	
 	const generados = #{}
 	const limite = 3 // limite segun nivel?
-	const obstaculos = [lavaFactory, aguaFactory, escalonFactory, enemigoFactory]
+	const obstaculosFactory = [lavaFactory, aguaFactory, escalonFactory, enemigoFactory]
 	
 	method generar() {
 //		if(generados.size() < limite) {
 			const obstaculo = self.nuevoObstaculo()	
 			game.addVisual(obstaculo)
 //			generados.add(obstaculo)
+			escenario.agregarElemento(obstaculo)
 //		}
 	}
 	
 	method elegirFactory() {
-	     return obstaculos.anyOne()  
+	     return obstaculosFactory.anyOne()  
 	}
 
 	method nuevoObstaculo() {
@@ -56,38 +59,30 @@ object obstaculosManager {
 	
 }
 class Obstaculo {
-	
-	method aparecer() {}
-	
-	method debilitar() {
-		
-		// como sacarle porcentaje de vida a crash?
-	}
+	method debilitar(){}// como sacarle porcentaje de vida a crash?
 }
 
-class Agua inherits Obstaculo {
-	var property position = game.at(game.width() - 2 , 1)
-	var property image = "agua.png"
-	
-	
+class ObstaculoPiso inherits Obstaculo {
+	var property position  = positionFija.nivelDelPiso()
 }
 
-class Lava inherits Obstaculo {
-	var property position = game.at(game.width() - 1 , 1)
-	var property image = "lava1.png"
-	
+class ObstaculoSobrePiso inherits Obstaculo {
+	var property position  = positionFija.sobreElPiso()
 }
 
-
-class Escalon inherits Obstaculo {
-	var property position = game.at(game.width() - 2 , 2)
-	var property image = "ladrillo-pared.png"
-	
+class Agua inherits ObstaculoPiso {
+	const property image = "agua.png"	
 }
 
+class Lava inherits ObstaculoPiso {
+	const property image = "lava1.png"
+}
 
-class Enemigo inherits Obstaculo {
-	var property position = game.at(game.width() - 1 , 2)
+class Escalon inherits ObstaculoSobrePiso {
+	const property image = "ladrillo-pared.png"
+}
+
+class Enemigo inherits ObstaculoSobrePiso {
 	var property image = "enemigo.png"
 	
 	method serEliminado() {

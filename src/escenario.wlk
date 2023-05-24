@@ -21,7 +21,7 @@ object nubeManager {
 	}
 	
 	method generar(){
-			const nube = self.nueva(positionRandomizer.nube())
+			const nube = self.nuevo(positionRandomizer.nube())
 			game.addVisual(nube)
 			//nubesGeneradas.add(nube)
 			escenario.agregarElemento(nube)

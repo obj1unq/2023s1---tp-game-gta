@@ -15,7 +15,8 @@ program juego {
 	keyboard.s().onPressDo{crash.estadoInicial()}
 	
 	//escenario
-	//game.onTick (4000, "GENERAR_NUBE", {nubeManager.generar(); pisoFactory.generar()})
+	game.onTick (4000, "GENERAR_NUBES", {nubeManager.generar()})
+	game.onTick (4000, "GENERAR_ELEMENTOS", {obstaculosManager.generar()})
 	game.onTick(180, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
 	
 	game.start()
