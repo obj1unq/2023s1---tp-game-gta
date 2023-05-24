@@ -1,6 +1,5 @@
 import wollok.game.*
 import crash.*
-import randomizer.*
 import posiciones.*
 import escenario.*
 import vida.*
@@ -35,7 +34,7 @@ object cajaManager {
 	method generar(){
 		const caja = self.nuevaCaja()
 		game.addVisual(caja)
-		escenario.agregarElemento(caja)
+		caidaManager.aplicarGravedad(caja)
 	}
 	
 	method eliminar(caja){
@@ -114,4 +113,28 @@ object bonusVida {
 
 object bonusManzana {
 	method cantidad() = 0.25
+}
+
+//************ CAIDA ******************
+object caidaManager{
+	
+	method acercarAOrigen(cosa){
+		escenario.avanzar(cosa)
+	}
+	
+	method aplicarGravedad(cosa){
+		game.onTick(300, "CAIDA", {self.caer(cosa)})
+	}
+	
+	method hayLugarDebajo(cosa){
+		return cosa.position().y() > 2
+	}
+	
+	method caer(cosa){
+		if(self.hayLugarDebajo(cosa)) {			
+			cosa.position(game.at(cosa.position().x(), cosa.position().y() - 1 ))
+		} else {
+			self.acercarAOrigen(cosa)
+		}
+	}
 }
