@@ -1,36 +1,49 @@
 import wollok.game.*
 import crash.*
 import randomizer.*
-//import vida.*
+import posiciones.*
+import escenario.*
+import vida.*
 //********* generadores de cajas *********************
 object cajaBombaFactory {
 	method nuevo() {
-		return new CajaBomba(position = randomizer.nextEmptyPosition(crash))
+		return new CajaBomba(position = positionRandomizer.bonus())
 	}
 }
 object cajaVidaFactory {
 	method nuevo() {
-		return new CajaVida(position = randomizer.nextEmptyPosition(crash))
+		return new CajaVida(position = positionRandomizer.bonus())
 	}
 }
 
 object cajaManzanaFactory {
 	method nuevo() {
-		return new CajaManzana(position = randomizer.nextEmptyPosition(crash))
+		return new CajaManzana(position = positionRandomizer.bonus())
 	}
 }
 
 //********** manejador visual de cajas ***************
 // en el program voy a tener cada cierto tiempo un generar con maximo de 5
 //cajaManager.generar(randomizer.randomCajaFactory())
-object cajaManager { 
-	method generar(factory){
-		const caja = factory.nuevo()
+object cajaManager {
+	const cajasFactories = [cajaBombaFactory,cajaVidaFactory,cajaManzanaFactory]
+	
+	method elegirFactory() {
+	     return cajasFactories.anyOne()  
+	}
+	
+	method generar(){
+		const caja = self.nuevaCaja()
 		game.addVisual(caja)
+		escenario.agregarElemento(caja)
 	}
 	
 	method eliminar(caja){
 		game.removeVisual(caja)
+	}
+	
+	method nuevaCaja() {
+		return self.elegirFactory().nuevo()
 	}
 }
 //************ Cajas **********************************
@@ -43,7 +56,7 @@ class Caja{
 	method afectar(personaje) //implementar
 	
 	
-	method colisionar(personaje){} //implementar
+	//method colisionar(personaje){} //implementar
 	
 	method serAgarradoPor(personaje){//es correcto parametrizar al personaje o pasarlo como atributo?
 		//validar colision
