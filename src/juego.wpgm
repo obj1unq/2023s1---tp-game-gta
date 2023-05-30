@@ -19,5 +19,7 @@ program juego {
 	game.onTick (4000, "GENERAR_ELEMENTOS", {obstaculosManager.generar()})
 	game.onTick(180, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
 	
+	game.onCollideDo(crash, {objeto => objeto.chocar(crash)})
+	// preguntar leo como chequear colision en distintas celdas?
 	game.start()
 }
