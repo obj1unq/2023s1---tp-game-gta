@@ -2,6 +2,7 @@ import wollok.game.*
 import crash.*
 import escenario.*
 import obstaculos.*
+import cajas.*
 
 program juego {
 	//tablero
@@ -17,7 +18,8 @@ program juego {
 	//escenario
 	game.onTick (4000, "GENERAR_NUBES", {nubeManager.generar()})
 	game.onTick (4000, "GENERAR_ELEMENTOS", {obstaculosManager.generar()})
-	game.onTick(180, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
+	game.onTick(7000, "GENERAR_CAJAS", {cajaManager.generar()})
+	game.onTick(200, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
 	
 	game.onCollideDo(crash, {objeto => objeto.chocar(crash)})
 	// preguntar leo como chequear colision en distintas celdas?

@@ -38,7 +38,7 @@ object crash {
 	method saltar() {
 		// self.validarSalto() --> como solucionarlo?
 		self.salto()
-		game.schedule(290, {self.estadoInicial()})
+		game.schedule(500, {self.estadoInicial()})
 	}
 	
 	method vida() {
