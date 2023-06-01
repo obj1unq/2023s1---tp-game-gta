@@ -20,8 +20,7 @@ object crash {
 		self.position(posicionInicial)
 		self.correr()
 	}
-	
-	
+		
 	method cambiarEstado() {
 		estadoActual = estadoActual.proximo()
 		self.image(estadoActual.image())

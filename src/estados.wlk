@@ -26,5 +26,7 @@ object pasoIzquierdo {
 
 object saltando {
 	const property image = "crash-salto-1.png"
-
+	method proximo() {
+		return reposo
+	}
 }
