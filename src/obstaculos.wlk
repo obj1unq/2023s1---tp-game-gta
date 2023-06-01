@@ -1,35 +1,30 @@
 import wollok.game.*
 import posiciones.*
 import escenario.*
+import vidas.*
+import crash.*
 
-// #{agua, lava, escalon, enemigo}  //cajaConBomba
-
-
-object aguaFactory {
-	
+object aguaFactory {	
 	method nuevo() {
-		return new Agua()
+		return new Agua (danio = 20)
 	}
 }
 
 object lavaFactory {
-	
 	method nuevo() {
-		return new Lava()
+		return new Lava(danio=40)
 	}
 }
 
 object escalonFactory {
-	
 	method nuevo() {
-		return new Escalon()
+		return new Obstaculo(image="ladrillo-pared.png")
 	}
 }
 
 object enemigoFactory {
-	
 	method nuevo() {
-		return new Enemigo()
+		return new Enemigo(image="enemigo.png")
 	}
 }
 
@@ -43,7 +38,8 @@ object obstaculosManager {
 	method generar() {
 //		if(generados.size() < limite) {
 			const obstaculo = self.nuevoObstaculo()	
-			game.addVisual(obstaculo)
+			//game.addVisual(obstaculo)
+			obstaculo.addToGame()
 //			generados.add(obstaculo)
 			escenario.agregarElemento(obstaculo)
 //		}
@@ -56,35 +52,49 @@ object obstaculosManager {
 	method nuevoObstaculo() {
 		return self.elegirFactory().nuevo()
 	}
-	
 }
+
 class Obstaculo {
-	method debilitar(){}// como sacarle porcentaje de vida a crash?
-}
-
-class ObstaculoPiso inherits Obstaculo {
-	var property position  = positionFija.nivelDelPiso()
-}
-
-class ObstaculoSobrePiso inherits Obstaculo {
-	var property position  = positionFija.sobreElPiso()
-}
-
-class Agua inherits ObstaculoPiso {
-	const property image = "agua.png"	
-}
-
-class Lava inherits ObstaculoPiso {
-	const property image = "lava1.png"
-}
-
-class Escalon inherits ObstaculoSobrePiso {
-	const property image = "ladrillo-pared.png"
-}
-
-class Enemigo inherits ObstaculoSobrePiso {
-	var property image = "enemigo.png"
 	
+	 var property position  = positionFija.sobreElPiso()
+	 var property danio = 0
+	 var property image
+
+	 method chocar(personaje) {
+		personaje.restarVida(self.danio())
+	}
+	
+	method addToGame(){
+		game.addVisual(self)
+	}
+}
+
+class ObstaculoSuelo inherits Obstaculo (position=positionFija.nivelDelPiso()){
+	override method addToGame(){
+		super()
+		const colisionador = new ColisionadorSuelos(colisionado= self)
+		game.addVisual(colisionador)
+	}
+}
+
+class Agua inherits ObstaculoSuelo (image="agua.png") {}
+
+class Lava inherits ObstaculoSuelo (image="lava1.png") {}
+
+class ColisionadorSuelos {
+	var colisionado
+	method position() = colisionado.position().up(1)
+	method chocar(personaje) {
+		colisionado.chocar(personaje)
+	}
+}
+
+class Enemigo inherits Obstaculo {
+	
+	override method image() = "enemigo.png"
+	
+	override method danio() = 30
+
 	method serEliminado() {
 		//game.removeVisual(self)
 		//generados.remove(self)

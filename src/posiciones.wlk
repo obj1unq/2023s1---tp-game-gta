@@ -3,7 +3,7 @@ import wollok.game.*
 object positionRandomizer {
 	const ultimaY = game.height()-1
 	const ultimaX= game.width()-1
-	const anchoTotal = 2..ultimaX
+	const anchoTotal = game.width()/2..ultimaX
 	
 	method nube(){
 		const alturas = [7,10,13]

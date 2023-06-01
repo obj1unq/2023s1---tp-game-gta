@@ -2,15 +2,18 @@ import wollok.game.*
 import crash.*
 import escenario.*
 import obstaculos.*
+import cajas.*
+import vidas.*
 
 program juego {
 	//tablero
 	game.title("Crash")
 	game.height(15)
 	game.width(21)
-	game.boardGround('campo.jpg')
+	game.boardGround('campo2.jpg')
 	//personajes y acciones
 	game.addVisual(crash)
+	game.addVisual(displayVida)
 	keyboard.space().onPressDo{crash.saltar()}
 	keyboard.s().onPressDo{crash.estadoInicial()}
 	
@@ -18,6 +21,8 @@ program juego {
 	game.onTick (4000, "GENERAR_NUBES", {nubeManager.generar()})
 	game.onTick (4000, "GENERAR_ELEMENTOS", {obstaculosManager.generar()})
 	game.onTick(180, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
-	
+	game.onTick(7000, "GENERAR_CAJAS", {cajaManager.generar()})
+	game.onCollideDo(crash, {objeto => objeto.chocar(crash)})
+	// preguntar leo como chequear colision en distintas celdas?
 	game.start()
 }

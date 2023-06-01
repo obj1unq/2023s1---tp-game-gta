@@ -1,5 +1,5 @@
 import wollok.game.*
-import vida.*
+import vidas.*
 import estados.*
 
 object crash {
@@ -7,7 +7,7 @@ object crash {
 	const posicionSalto = game.at(1, 5)
 	var property position = posicionInicial
 	var property image = "crash-1.png"
-	const property vidas = #{} // 4 objetos vidas
+	const property vida = new Vida()// 4 objetos vidas en collection?
 	var property estadoActual = reposo
 	
 	method salto() {
@@ -32,22 +32,42 @@ object crash {
 	}
 	
 	method validarSalto(){
-		if (game.hasVisual(saltando)) {
+		if (game.hasVisual(saltando)) { //--> si la y no es 0?
 			game.say(self, "Ya estoy saltando!")
 		}
 	}
 	method saltar() {
-		// self.validarSalto() --> como solucionarlo?
+		// self.validarSalto() --> como solucionarlo? 
 		self.salto()
-		game.schedule(290, {self.estadoInicial()})
+		game.schedule(500, {self.estadoInicial()})
 	}
 	
-	method restarVida(cantidad) {
-		// validacion
-		vida.restarA(self, cantidad)
+	method validarQuePuedoFortalecer(cantidad){
+		if (self.vida().contador() == 100){
+			self.error("ya esta lleno de vida")
+		}
 	}
-	
+		
 	method sumarVida(cantidad) {
-		vida.sumarA(self, cantidad)
-	}	
+		self.validarQuePuedoFortalecer(cantidad)
+		self.vida().fortalecer(cantidad)//REVISAR XQ A VECES FALLA CON LAS CAJAS
+		game.say(self, "Yay!")
+	}
+	
+	method validarQuePuedoDebilitar(cantidad){
+		if (self.vida().contador() == 0){
+			self.error("ya estoy muerto")
+		}
+	}
+
+	method restarVida(cantidad) {
+		self.validarQuePuedoDebilitar(cantidad)
+		self.vida().debilitar(cantidad)
+		 game.say(self, "Auch!") 
+	}
 }
+
+
+
+
+
