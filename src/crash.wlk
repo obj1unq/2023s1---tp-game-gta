@@ -43,19 +43,19 @@ object crash {
 	
 	method validarQuePuedoFortalecer(cantidad){
 		if (self.vida().contador() == 100){
-			self.error("ya esta lleno de vida")
+			game.say(self, "estoy lleno")
 		}
 	}
 		
 	method sumarVida(cantidad) {
 		self.validarQuePuedoFortalecer(cantidad)
-		self.vida().fortalecer(cantidad)//REVISAR XQ A VECES FALLA CON LAS CAJAS
+		self.vida().fortalecer(cantidad)
 		game.say(self, "Yay!")
 	}
 	
 	method validarQuePuedoDebilitar(cantidad){
 		if (self.vida().contador() == 0){
-			self.error("ya estoy muerto")
+			game.say(self,"ya estoy muerto")
 		}
 	}
 

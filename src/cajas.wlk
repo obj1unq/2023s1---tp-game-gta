@@ -63,7 +63,7 @@ class CajaBomba inherits Caja {
 	
 	override method chocar(personaje){
 		super(personaje)
-		personaje.debilitar(self.danio())
+		personaje.restarVida(self.danio())
 		game.say(personaje, "perdí una vida!")
 	}
 }
@@ -76,7 +76,7 @@ class CajaBonus inherits Caja {
 	
     override method chocar(personaje){
     	super(personaje)
-    	personaje.fortalecer(self.contenido().cantidad())
+    	personaje.sumarVida(self.contenido().cantidad())
 		game.say(personaje, "vida extra!")
     }	
 }

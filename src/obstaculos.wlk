@@ -31,7 +31,7 @@ object enemigoFactory {
 
 object obstaculosManager {
 	
-	const generados = #{}
+	//const generados = #{}
 	const limite = 3 // limite segun nivel?
 	const obstaculosFactory = [lavaFactory, aguaFactory, escalonFactory, enemigoFactory]
 	
