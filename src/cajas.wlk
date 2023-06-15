@@ -53,7 +53,7 @@ class Caja{
 	method chocar(personaje){//es correcto parametrizar al personaje o pasarlo como atributo?
 		//validar colision
 		//personaje.agarrar(self)
-		cajaManager.eliminar(self)
+		//cajaManager.eliminar(self)
 	}
 }
 
@@ -64,7 +64,7 @@ class CajaBomba inherits Caja {
 	override method chocar(personaje){
 		super(personaje)
 		personaje.restarVida(self.danio())
-		game.say(personaje, "perdí una vida!")
+		game.say(messagePoint, "perdí una vida!")
 	}
 }
 
@@ -77,7 +77,7 @@ class CajaBonus inherits Caja {
     override method chocar(personaje){
     	super(personaje)
     	personaje.sumarVida(self.contenido().cantidad())
-		game.say(personaje, "vida extra!")
+		game.say(messagePoint, "vida extra!")
     }	
 }
 
