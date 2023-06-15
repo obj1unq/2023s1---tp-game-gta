@@ -83,7 +83,7 @@ class Lava inherits ObstaculoSuelo (image="lava1.png") {}
 
 class ColisionadorSuelos {
 	var colisionado
-	method position() = colisionado.position().up(1)
+	method position() = colisionado.position().up(2)
 	method chocar(personaje) {
 		colisionado.chocar(personaje)
 	}
