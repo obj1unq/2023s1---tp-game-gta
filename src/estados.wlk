@@ -1,3 +1,5 @@
+// ----- Visuales Movimiento de Crash (corriendo / saltando)
+
 
 
 object reposo {
@@ -30,3 +32,5 @@ object saltando {
 		return reposo
 	}
 }
+
+

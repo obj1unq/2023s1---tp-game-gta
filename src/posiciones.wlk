@@ -16,7 +16,7 @@ object positionRandomizer {
 }
 
 object positionFija {
-	const nivelDelPiso = 1
+	const nivelDelPiso = 0
 	const sobreElPiso = 2
 	const ultimaX= game.width()-1
 	

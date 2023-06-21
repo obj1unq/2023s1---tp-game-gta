@@ -1,6 +1,7 @@
 import wollok.game.*
 import vidas.*
 import estados.*
+import screens.*
 
 object crash {
 	const posicionInicial = game.at(1, 2)
@@ -32,7 +33,7 @@ object crash {
 	
 	method validarSalto(){
 		if (game.hasVisual(saltando)) { //--> si la y no es 0?
-			game.say(self, "Ya estoy saltando!")
+			game.say(messagePoint, "Ya estoy saltando!")
 		}
 	}
 	method saltar() {
@@ -43,30 +44,34 @@ object crash {
 	
 	method validarQuePuedoFortalecer(cantidad){
 		if (self.vida().contador() == 100){
-			game.say(self, "estoy lleno")
+			game.say(messagePoint, "estoy lleno")
 		}
 	}
 		
 	method sumarVida(cantidad) {
 		self.validarQuePuedoFortalecer(cantidad)
 		self.vida().fortalecer(cantidad)
-		game.say(self, "Yay!")
+		game.say(messagePoint, "Yay!")
 	}
 	
 	method validarQuePuedoDebilitar(cantidad){
 		if (self.vida().contador() == 0){
-			game.say(self,"ya estoy muerto")
+			game.say(messagePoint,"ya estoy muerto")
+			//myScreen.endGame()
 		}
 	}
 
 	method restarVida(cantidad) {
 		self.validarQuePuedoDebilitar(cantidad)
 		self.vida().debilitar(cantidad)
-		 game.say(self, "Auch!") 
+		 game.say(messagePoint, "Auch!") 
 	}
 }
 
 
 
-
+object messagePoint {
+	method image() = 'empty.png'
+	method position() = game.at(1, 3)
+}
 
