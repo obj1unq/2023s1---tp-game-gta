@@ -11,6 +11,6 @@ program juego {
 	
 	//PANTALLA DE INICIO
 	myScreen.configInicial()
-	
+	   
 	game.start()
 }

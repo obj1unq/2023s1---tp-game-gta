@@ -33,6 +33,7 @@ object myScreen {
 			game.addVisual(displayVidaCounter)
 			game.addVisual(lifeBar)
 			crash.estadoInicial()
+			game.errorReporter(displayVidaCounter)
 	}
 	
 	method agregarComandos(){
@@ -93,6 +94,8 @@ object lastScreen inherits Screen {
 	override method image() = '3.jpg'
 	
 	method endGame() {
+		game.clear() 
+		game.addVisual(self)
 		game.stop()
 	}	
 }

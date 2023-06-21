@@ -42,29 +42,31 @@ object crash {
 		game.schedule(500, {self.estadoInicial()})
 	}
 	
-	method validarQuePuedoFortalecer(cantidad){
-		if (self.vida().contador() == 100){
+	method puedoFortalecer() {
+		return self.vida().contador() < 500
+	}
+	
+	method sumarVida(cantidad) {
+		if (self.puedoFortalecer()) {
+			self.vida().fortalecer(cantidad)
+			game.say(messagePoint, "Yay!")
+		} else {
 			game.say(messagePoint, "estoy lleno")
 		}
 	}
-		
-	method sumarVida(cantidad) {
-		self.validarQuePuedoFortalecer(cantidad)
-		self.vida().fortalecer(cantidad)
-		game.say(messagePoint, "Yay!")
+
+	method estaMuerto() {
+		return self.vida().contador() == 0
 	}
 	
-	method validarQuePuedoDebilitar(cantidad){
-		if (self.vida().contador() == 0){
-			game.say(messagePoint,"ya estoy muerto")
-			//myScreen.endGame()
-		}
-	}
-
 	method restarVida(cantidad) {
-		self.validarQuePuedoDebilitar(cantidad)
-		self.vida().debilitar(cantidad)
-		 game.say(messagePoint, "Auch!") 
+		if (not self.estaMuerto()) {
+			self.vida().debilitar(cantidad)
+		 	game.say(messagePoint, "Auch!") 
+		} else {
+			game.say(messagePoint,"ya estoy muerto")
+			myScreen.endGame()
+		}
 	}
 }
 

@@ -53,7 +53,7 @@ object lifeBar {
 //	}
 	
 	method obtenerIndex(valor){
-		return (valor / 20).truncate(0)
+		return (valor / 100).truncate(0)
 	}
 	
 	method barraDeRango(valor){
@@ -66,35 +66,47 @@ object lifeBar {
 		game.addVisual(valor)
 	}
 	
-//	method removeBar(){ // TODO: revisar xq falla. Dice que no encuentra obj a remover
-//		game.removeVisual(currentBar)
-//	}
+	method estaElObjeto(bar) {
+		return game.hasVisual(bar)
+	}
+	
+	method removeBar(bar){ // TODO: revisar xq falla. Dice que no encuentra obj a remover
+		if (self.estaElObjeto(bar)) {
+			game.removeVisual(bar)
+		} else throw new Exception(message = 'No esta')
+		
+	}
 }
 
 class Vida {
-	var property contador = 100 //TODO: subirle el maximo a 500 para que dure mas
+	var property contador = 500 //TODO: subirle el maximo a 500 para que dure mas
+	var valorAnterior
+	
 	
 	method fortalecer(cantidad) {
-		
-	 	contador = (contador + cantidad).min(100)
+		valorAnterior = contador
+	 	contador = (contador + cantidad).min(500)
 	 	self.actualizarLifeBar(contador)
 		
 	}
 	 
 	method debilitar(cantidad) {
-		
+		valorAnterior = contador
 	 	contador = (contador - cantidad).max(0)
 	 	self.actualizarLifeBar(contador)
 	 	
 	}
 	
 	method actualizarLifeBar(valorNuevo){
-		//sigue en el mismo rango? sino que lo cambie
-		
-		//const rangoAnterior = lifeBar.rangoPara(valorAnterior) //obj barra visual
+		const rangoAnterior = lifeBar.barraDeRango(valorAnterior) 
 		const rangoBuscado = lifeBar.barraDeRango(valorNuevo)
-		lifeBar.addBarPara(rangoBuscado)
-		
+		//sigue en el mismo rango? sino que lo cambie
+		if (rangoBuscado != rangoAnterior) {
+			lifeBar.removeBar(rangoAnterior)
+			lifeBar.addBarPara(rangoBuscado)
+		} else throw new Exception(message = 'Es la misma')
+		//obj barra visual
+
 	}
 }
 
