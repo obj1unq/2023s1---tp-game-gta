@@ -48,7 +48,7 @@ object myScreen {
 	method addEscenarioMovil(){
 		//escenario
 		game.onTick (4000, "GENERAR_NUBES", {nubeManager.generar()})
-		game.onTick (4000, "GENERAR_ELEMENTOS", {obstaculosManager.generar()})
+		game.onTick (7000, "GENERAR_ELEMENTOS", {obstaculosManager.generar()})
 		game.onTick(180, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
 		game.onTick(7000, "GENERAR_CAJAS", {cajaManager.generar()})
 		game.onCollideDo(crash, {objeto => objeto.chocar(crash)})

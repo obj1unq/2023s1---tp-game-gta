@@ -6,7 +6,7 @@ object positionRandomizer {
 	const anchoTotal = game.width()/2..ultimaX
 	
 	method nube(){
-		const alturas = [7,10,13]
+		const alturas = [6,8,11]
 		return game.at(ultimaX, alturas.anyOne())
 	}
 	

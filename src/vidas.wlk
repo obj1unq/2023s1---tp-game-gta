@@ -5,7 +5,7 @@ import estados.*
 class HealthBar {
 	
 	method image()
-	method position() = game.at(3 ,12)
+	method position() = game.at(8, 13)
 	
 	method minimo()
 	method minimoRelativo() = self.minimo()
@@ -126,7 +126,7 @@ class Vida {
 // --- Contador Numerico de la vida
 object displayVidaCounter{
 	method position() {
-		return game.at(2 ,12)
+		return game.at( 7, 13)
 	}
 	
 	method text(){
