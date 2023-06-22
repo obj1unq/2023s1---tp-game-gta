@@ -6,13 +6,13 @@ import crash.*
 
 object aguaFactory {	
 	method nuevo() {
-		return new Agua (danio = 20)
+		return new Agua (danio = 200)
 	}
 }
 
 object lavaFactory {
 	method nuevo() {
-		return new Lava(danio=40)
+		return new Lava(danio=400)
 	}
 }
 
@@ -93,7 +93,7 @@ class Enemigo inherits Obstaculo {
 	
 	override method image() = "enemigo.png"
 	
-	override method danio() = 30
+	override method danio() = 300
 
 	method serEliminado() {
 		//game.removeVisual(self)

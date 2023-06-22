@@ -43,7 +43,7 @@ object crash {
 	}
 	
 	method puedoFortalecer() {
-		return self.vida().contador() < 500
+		return self.vida().contador() < 1000
 	}
 	
 	method sumarVida(cantidad) {
