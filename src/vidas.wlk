@@ -2,111 +2,121 @@ import wollok.game.*
 import crash.*
 import estados.*
 
-object saludable {
-	const property image = "saludable.png"
-	method position() = game.at(3 ,12)
+class HealthBar {
+	
+	method image()
+	method position() = game.at(8, 13)
+	
+	method minimo()
+	method minimoRelativo() = self.minimo()
+	method maximo()
+	
+	method anterior()
+	method siguiente()
+	
+	method estaEnEsteRango(valor){
+		return valor.between(self.minimo(), self.maximo())
+	}
+	
+	method rangoCorrespondiente(valor){
+		if (valor < self.minimoRelativo() ){
+			return self.anterior()
+		} else return self.siguiente()
+	}
+	
+	method nuevoEstado(valor){
+		if (self.estaEnEsteRango(valor)){
+			return self 
+		} else return self.rangoCorrespondiente(valor)
+	}
+	//opcion: actualizar estado y mandarse a si mismo si corresponde
 }
 
-object menosSaludable {
-	const property image = "menosSaludable.png"
-	method position() = game.at(3 ,12)
+object saludable inherits HealthBar {
+	override method image() = "saludable.png"
+	override method minimo() = 800
+	override method maximo() = 1000
+	override method anterior() = menosSaludable
+	override method siguiente() = self
+
 }
 
-object peligroLeve {
-	const property image = "peligroLeve.png"
-	method position() = game.at(3 ,12)
+object menosSaludable inherits HealthBar {
+	override method image() = "menosSaludable.png"
+	override method minimo() = 600
+	override method maximo() = 799
+	override method anterior() = peligroLeve
+	override method siguiente() = saludable
 }
 
-object peligroModerado {
-	const property image = "peligroModerado.png"
-	method position() = game.at(3 ,12)
+object peligroLeve inherits HealthBar {
+	override method image() = "peligroLeve.png"
+	override method minimo() = 400
+	override method maximo() = 599
+	override method anterior() = peligroModerado
+	override method siguiente() = menosSaludable
 }
 
-object agonia {
-	const property image = "agonia.png"
-	method position() = game.at(3 ,12)
+object peligroModerado inherits HealthBar {
+	override method image() = "peligroModerado.png"
+	override method minimo() = 200
+	override method maximo() = 399
+	override method anterior() = agonia
+	override method siguiente() = peligroLeve
 }
 
-object muerto {
-	const property image = "muerto.png"
-	method position() = game.at(3 ,12)
+object agonia inherits HealthBar {
+	override method image() = "agonia.png"
+	override method minimo() = 1
+	override method maximo() = 199
+	override method anterior() = muerto
+	override method siguiente() = peligroModerado
+}
+
+object muerto inherits HealthBar {
+	override method image() = "muerto.png"
+	override method minimo() = 0
+	override method minimoRelativo() = 1
+	override method maximo() = 0
+	override method anterior() = self
+	override method siguiente() = agonia
 }
 
 //--- Barra de Vida
 
 //La progresión es:
-// saludable (100 a 80) - menosSaludable (79 a 60)
-// peligroLeve (59 a 40)
-// peligroModerado (39 a 20) - agonia (19 a 0)
+// saludable (100 a 800) - menosSaludable (600 a 799)
+// peligroLeve (400 a 599)
+// peligroModerado (200 a 399) - agonia (1 a 199) - muerto (0)
 
 object lifeBar {
-	
-	const rangos = [muerto, agonia, peligroModerado, peligroLeve, menosSaludable, saludable]
-	
+		
 	var currentBar = saludable
 	
 	method image() = currentBar.image()
 	method position() = currentBar.position()
 	
-//	method position() {
-//		return game.at(3 ,12)
-//	}
 	
-	method obtenerIndex(valor){
-		return (valor / 100).truncate(0)
-	}
-	
-	method barraDeRango(valor){
-		const indice = self.obtenerIndex(valor)
-		return rangos.get(indice) // me trae el obj que tiene ese rango
-	}
-	
-	method addBarPara(valor){
-		currentBar = valor
-		game.addVisual(valor)
-	}
-	
-	method estaElObjeto(bar) {
-		return game.hasVisual(bar)
-	}
-	
-	method removeBar(bar){ // TODO: revisar xq falla. Dice que no encuentra obj a remover
-		if (self.estaElObjeto(bar)) {
-			game.removeVisual(bar)
-		} else throw new Exception(message = 'No esta')
-		
+	method actualizarBarraPara(valor){
+		currentBar = currentBar.nuevoEstado(valor)
 	}
 }
 
 class Vida {
-	var property contador = 500 //TODO: subirle el maximo a 500 para que dure mas
-	var valorAnterior
-	
+	var property contador = 1000
 	
 	method fortalecer(cantidad) {
-		valorAnterior = contador
-	 	contador = (contador + cantidad).min(500)
-	 	self.actualizarLifeBar(contador)
+		
+	 	contador = (contador + cantidad).min(1000)
+	 	lifeBar.actualizarBarraPara(contador)
 		
 	}
 	 
 	method debilitar(cantidad) {
-		valorAnterior = contador
+		
 	 	contador = (contador - cantidad).max(0)
-	 	self.actualizarLifeBar(contador)
+	 	lifeBar.actualizarBarraPara(contador)
 	 	
-	}
-	
-	method actualizarLifeBar(valorNuevo){
-		const rangoAnterior = lifeBar.barraDeRango(valorAnterior) 
-		const rangoBuscado = lifeBar.barraDeRango(valorNuevo)
-		//sigue en el mismo rango? sino que lo cambie
-		if (rangoBuscado != rangoAnterior) {
-			lifeBar.removeBar(rangoAnterior)
-			lifeBar.addBarPara(rangoBuscado)
-		} else throw new Exception(message = 'Es la misma')
-		//obj barra visual
-
 	}
 }
 
@@ -116,7 +126,7 @@ class Vida {
 // --- Contador Numerico de la vida
 object displayVidaCounter{
 	method position() {
-		return game.at(2 ,12)
+		return game.at( 7, 13)
 	}
 	
 	method text(){
