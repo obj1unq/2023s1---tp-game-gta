@@ -33,4 +33,7 @@ object saltando {
 	}
 }
 
-
+object muerte {
+	const property image = "crash-muerte.png"
+	method proximo() = self
+}

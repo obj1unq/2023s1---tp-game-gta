@@ -39,7 +39,7 @@ object crash {
 	method saltar() {
 		// self.validarSalto() --> como solucionarlo? 
 		self.salto()
-		game.schedule(700, {self.estadoInicial()})
+		game.schedule(800, {self.estadoInicial()})
 	}
 	
 	method puedoFortalecer() {
@@ -50,8 +50,6 @@ object crash {
 		if (self.puedoFortalecer()) {
 			self.vida().fortalecer(cantidad)
 			game.say(messagePoint, "Yay!")
-		} else {
-			game.say(messagePoint, "estoy lleno")
 		}
 	}
 
@@ -61,12 +59,21 @@ object crash {
 	
 	method restarVida(cantidad) {
 		if (not self.estaMuerto()) {
+		 	game.say(messagePoint, "Auch!")
 			self.vida().debilitar(cantidad)
-		 	game.say(messagePoint, "Auch!") 
-		} else {
-			game.say(messagePoint,"ya estoy muerto")
-			myScreen.endGame()
 		}
+	}
+	
+	method morirSiCorresponde(){
+		if (self.estaMuerto()){
+			self.dejarDeCorrer()
+			myScreen.gameOver()
+		}
+	}
+	
+	method dejarDeCorrer(){
+		image = muerte.image()
+		game.removeTickEvent("CORRER")
 	}
 }
 

@@ -29,7 +29,6 @@ class HealthBar {
 			return self 
 		} else return self.rangoCorrespondiente(valor)
 	}
-	//opcion: actualizar estado y mandarse a si mismo si corresponde
 }
 
 object saludable inherits HealthBar {
@@ -85,9 +84,12 @@ object muerto inherits HealthBar {
 //--- Barra de Vida
 
 //La progresión es:
-// saludable (100 a 800) - menosSaludable (600 a 799)
+// saludable (100 a 800)
+// menosSaludable (600 a 799)
 // peligroLeve (400 a 599)
-// peligroModerado (200 a 399) - agonia (1 a 199) - muerto (0)
+// peligroModerado (200 a 399)
+// agonia (1 a 199)
+// muerto (0)
 
 object lifeBar {
 		
@@ -116,7 +118,7 @@ class Vida {
 		
 	 	contador = (contador - cantidad).max(0)
 	 	lifeBar.actualizarBarraPara(contador)
-	 	
+	 	crash.morirSiCorresponde()	 	
 	}
 }
 
