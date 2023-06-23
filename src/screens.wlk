@@ -33,16 +33,13 @@ object myScreen {
 			game.addVisual(displayVidaCounter)
 			game.addVisual(lifeBar)
 			crash.estadoInicial()
-			game.errorReporter(displayVidaCounter)
+			game.errorReporter(displayVidaCounter) //TODO: comentar esto para entrega final.
 	}
 	
 	method agregarComandos(){
 		keyboard.space().onPressDo{crash.saltar()}
 		
-		//keyboard.p().onPressDo{pausedScreen.togglePausedScreen()} 
-	
-		keyboard.f().onPressDo{game.clear(); game.addVisual(lastScreen)}
-		// esto es solo para probar. En realidad cambiara cuando se quede sin vida 
+		//keyboard.p().onPressDo{pausedScreen.togglePausedScreen()} TODO: decidir si va a tener pausa o no.
 	}
 	
 	method addEscenarioMovil(){
@@ -54,9 +51,17 @@ object myScreen {
 		game.onCollideDo(crash, {objeto => objeto.chocar(crash)})
 	}
 	
-	method endGame(){
-		game.clear()
-		game.addVisual(lastScreen)
+	method congelarEscenario(){
+		//DUDA ESPERA UN INTERVALO PARA SACARLO???
+		game.removeTickEvent("GENERAR_NUBES")
+		game.removeTickEvent("GENERAR_CAJAS")
+		game.removeTickEvent("GENERAR_ELEMENTOS")
+		game.removeTickEvent("AVANZAR_ESCENARIO") //ERROR las cajas siguen avanzando
+	}
+	
+	method gameOver(){
+		self.congelarEscenario()
+		game.schedule(3000, {lastScreen.endGame(); game.schedule(8000, {game.stop()})})
 	}
 }
 
@@ -82,7 +87,7 @@ object pausedScreen inherits Screen {
 	method togglePausedScreen(){
 		if (not game.hasVisual(self)){
 			game.addVisual(self)
-			// DUDA: COMO DETENER AVANCE DE ESCENARIO Y GENERACION DE OBJ?
+			// TODO: DUDA: COMO DETENER AVANCE DE ESCENARIO Y GENERACION DE OBJ? o solo que la vida contador no lo contabilice?
 		} else {
 			game.removeVisual(self)
 		}
@@ -91,12 +96,12 @@ object pausedScreen inherits Screen {
 
 
 object lastScreen inherits Screen {
-	override method image() = '3.jpg'
+	override method image() = 'the-end.png'
 	
 	method endGame() {
 		game.clear() 
 		game.addVisual(self)
-		game.stop()
 	}	
 }
+
 
