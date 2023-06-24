@@ -11,32 +11,46 @@ class HealthBar {
 	method minimoRelativo() = self.minimo()
 	method maximo()
 	
-	method anterior()
-	method siguiente()
+	method actualizar(valor, lifebar){
+		if (not self.estaEnEsteRango(valor)){
+			self.cambiarRango(valor, lifebar)
+		}
+	}
 	
 	method estaEnEsteRango(valor){
 		return valor.between(self.minimo(), self.maximo())
 	}
 	
-	method rangoCorrespondiente(valor){
+	method cambiarRango(valor, lifebar){
 		if (valor < self.minimoRelativo() ){
-			return self.anterior()
-		} else return self.siguiente()
+			lifebar.currentBar(lifebar.anterior())
+		} else lifebar.currentBar(lifebar.siguiente())
 	}
 	
-	method nuevoEstado(valor){
-		if (self.estaEnEsteRango(valor)){
-			return self 
-		} else return self.rangoCorrespondiente(valor)
-	}
+//	method rangoCorrespondiente(valor){
+//		if (valor < self.minimoRelativo() ){
+//			return self.anterior()
+//		} else return self.siguiente()
+//	}
+//	
+//	method nuevoEstado(valor){
+//		if (self.estaEnEsteRango(valor)){
+//			return self // FALLA EN ESTE CASO
+//		} else return self.rangoCorrespondiente(valor)
+//	}
 }
 
 object saludable inherits HealthBar {
 	override method image() = "saludable.png"
 	override method minimo() = 800
 	override method maximo() = 1000
-	override method anterior() = menosSaludable
-	override method siguiente() = self
+	method anterior() = menosSaludable
+	
+	override method cambiarRango(valor, lifebar){
+		if (valor < self.minimoRelativo() ){
+			lifebar.currentBar(lifebar.anterior())
+		}
+	}
 
 }
 
@@ -44,32 +58,32 @@ object menosSaludable inherits HealthBar {
 	override method image() = "menosSaludable.png"
 	override method minimo() = 600
 	override method maximo() = 799
-	override method anterior() = peligroLeve
-	override method siguiente() = saludable
+	method anterior() = peligroLeve
+    method siguiente() = saludable
 }
 
 object peligroLeve inherits HealthBar {
 	override method image() = "peligroLeve.png"
 	override method minimo() = 400
 	override method maximo() = 599
-	override method anterior() = peligroModerado
-	override method siguiente() = menosSaludable
+	method anterior() = peligroModerado
+	method siguiente() = menosSaludable
 }
 
 object peligroModerado inherits HealthBar {
 	override method image() = "peligroModerado.png"
 	override method minimo() = 200
 	override method maximo() = 399
-	override method anterior() = agonia
-	override method siguiente() = peligroLeve
+	method anterior() = agonia
+	method siguiente() = peligroLeve
 }
 
 object agonia inherits HealthBar {
 	override method image() = "agonia.png"
 	override method minimo() = 1
 	override method maximo() = 199
-	override method anterior() = muerto
-	override method siguiente() = peligroModerado
+	method anterior() = muerto
+	method siguiente() = peligroModerado
 }
 
 object muerto inherits HealthBar {
@@ -77,14 +91,19 @@ object muerto inherits HealthBar {
 	override method minimo() = 0
 	override method minimoRelativo() = 1
 	override method maximo() = 0
-	override method anterior() = self
-	override method siguiente() = agonia
+	method siguiente() = agonia
+	
+	override method cambiarRango(valor, lifebar){
+		if (valor > self.maximo() ){
+			lifebar.currentBar(lifebar.siguiente())
+		}
+	}
 }
 
 //--- Barra de Vida
 
 //La progresión es:
-// saludable (100 a 800)
+// saludable (800 a 1000)
 // menosSaludable (600 a 799)
 // peligroLeve (400 a 599)
 // peligroModerado (200 a 399)
@@ -93,19 +112,23 @@ object muerto inherits HealthBar {
 
 object lifeBar {
 		
-	var currentBar = saludable
+	var property currentBar = saludable
 	
 	method image() = currentBar.image()
 	method position() = currentBar.position()
 	
 	
 	method actualizarBarraPara(valor){
-		currentBar = currentBar.nuevoEstado(valor)
+		
+		currentBar.actualizar(valor, currentBar)
+		//currentBar = currentBar.nuevoEstado(valor)
 	}
 }
 
 class Vida {
-	var property contador = 1000
+	var contador = 1000
+	
+	method contador() = contador
 	
 	method fortalecer(cantidad) {
 		
