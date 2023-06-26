@@ -32,12 +32,13 @@ object crash {
 	}
 	
 	method validarSalto(){
-		if (game.hasVisual(saltando)) { //--> si la y no es 0?
+		if (self.position() == posicionSalto) {
 			game.say(messagePoint, "Ya estoy saltando!")
+			throw new Exception(message ="Crash ya esta saltando")
 		}
 	}
 	method saltar() {
-		// self.validarSalto() --> como solucionarlo? 
+		self.validarSalto() 
 		self.salto()
 		game.schedule(800, {self.estadoInicial()})
 	}
@@ -82,6 +83,6 @@ object crash {
 
 object messagePoint {
 	method image() = 'empty.png'
-	method position() = game.at(1, 3)
+	method position() = crash.position().up(1)
 }
 
