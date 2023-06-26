@@ -13,7 +13,7 @@ describe "Colisiones de Crash" {
 	const agua = new Agua (danio = 200)
 	const agua2 = new Agua (danio = 200)
 	const lava = new Lava(danio=400)
-	const escalon = new Obstaculo(image="ladrillo-pared.png")
+	const escalon = new Obstaculo(image="ladrillo-pared.png") //Pared
 	const enemigo = new Enemigo(image="enemigo.png")
 	// caja bomba
 	const bomba = new CajaBomba(position = positionRandomizer.bonus())
@@ -149,15 +149,31 @@ describe "Colisiones de Crash" {
 		agua2.chocar(crash)
 		lava.chocar(crash) 
 		assert.equals(200, crash.vida().contador())
-		assert.that(peligroModerado.estaEnEsteRango(200))
+		assert.that(peligroModerado.estaEnEsteRango(200)) // preguntar Deby
 		assert.equals(peligroModerado, lifeBar.currentBar())
 		bomba.chocar(crash)
 		assert.equals(170, crash.vida().contador())
 		assert.equals(agonia, lifeBar.currentBar())
 	}
+	
 	// cuando esta lleno y choca con bonus
+	test "Crash esta saludable, choca con bonus y no suma vidas" {
+		assert.equals(1000, crash.vida().contador())
+		cajaVida.chocar(crash)
+		assert.equals(1000, crash.vida().contador())
+	}
 	
 	// cuando muere
+	test "Crash llega a 0 de vida, y muere" {
+		assert.equals(1000, crash.vida().contador())
+		lava.chocar(crash)
+		lava.chocar(crash)
+		agua.chocar(crash)
+		assert.equals(0, crash.vida().contador())
+		assert.that(crash.estaMuerto())
+	}
+	
+	
 }
 
 

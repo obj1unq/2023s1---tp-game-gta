@@ -10,6 +10,8 @@ class Nube {
 	method image() {
 		return "nube.png"
 	}
+	
+	method esPared() = false
 }
 
 object nubeManager {
@@ -36,9 +38,15 @@ object escenario{
 		self.elementosCreados().add(cosa)
 	}
 	
+	method esParedColisionado(cosa) {
+		 return cosa.esPared() and cosa.colisionoConCrash()
+	}
+	
 	method avanzar(cosa){
-		const nuevoX= cosa.position().x()-1
+		if (not self.esParedColisionado(cosa)) {
+			const nuevoX= cosa.position().x()-1
 		cosa.position(game.at(nuevoX, cosa.position().y()))
+		}
 	}
 	
 	method avanzarEscenario(){

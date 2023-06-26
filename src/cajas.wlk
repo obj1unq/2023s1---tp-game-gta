@@ -55,6 +55,8 @@ class Caja{
 		//personaje.agarrar(self)
 		//cajaManager.eliminar(self)
 	}
+	
+	method esPared() = false
 }
 
 class CajaBomba inherits Caja {

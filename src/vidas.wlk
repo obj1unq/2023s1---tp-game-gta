@@ -11,9 +11,9 @@ class HealthBar {
 	method minimoRelativo() = self.minimo()
 	method maximo()
 	
-	method actualizar(valor, lifebar){
+	method actualizar(valor, estado){
 		if (not self.estaEnEsteRango(valor)){
-			self.cambiarRango(valor, lifebar)
+			self.cambiarRango(valor, estado)
 		}
 	}
 	
@@ -21,10 +21,10 @@ class HealthBar {
 		return valor.between(self.minimo(), self.maximo())
 	}
 	
-	method cambiarRango(valor, lifebar){
+	method cambiarRango(valor, estado){
 		if (valor < self.minimoRelativo() ){
-			lifebar.currentBar(lifebar.anterior())
-		} else lifebar.currentBar(lifebar.siguiente())
+			lifeBar.currentBar(estado.anterior())
+		} else lifeBar.currentBar(estado.siguiente())
 	}
 	
 //	method rangoCorrespondiente(valor){
@@ -46,9 +46,9 @@ object saludable inherits HealthBar {
 	override method maximo() = 1000
 	method anterior() = menosSaludable
 	
-	override method cambiarRango(valor, lifebar){
+	override method cambiarRango(valor, estado){
 		if (valor < self.minimoRelativo() ){
-			lifebar.currentBar(lifebar.anterior())
+			lifeBar.currentBar(estado.anterior())
 		}
 	}
 
@@ -93,9 +93,9 @@ object muerto inherits HealthBar {
 	override method maximo() = 0
 	method siguiente() = agonia
 	
-	override method cambiarRango(valor, lifebar){
+	override method cambiarRango(valor, estado){
 		if (valor > self.maximo() ){
-			lifebar.currentBar(lifebar.siguiente())
+			lifeBar.currentBar(estado.siguiente())
 		}
 	}
 }

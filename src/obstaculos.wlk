@@ -16,9 +16,9 @@ object lavaFactory {
 	}
 }
 
-object escalonFactory {
+object paredFactory {
 	method nuevo() {
-		return new Obstaculo(image="ladrillo-pared.png")
+		return new Pared(image="ladrillo-pared.png")
 	}
 }
 
@@ -32,8 +32,8 @@ object enemigoFactory {
 object obstaculosManager {
 	
 	//const generados = #{}
-	const limite = 3 // limite segun nivel?
-	const obstaculosFactory = [lavaFactory, aguaFactory, escalonFactory, enemigoFactory]
+	//const limite = 3 // limite segun nivel?
+	const obstaculosFactory = [lavaFactory, aguaFactory, paredFactory, enemigoFactory]
 	
 	method generar() {
 //		if(generados.size() < limite) {
@@ -67,6 +67,14 @@ class Obstaculo {
 	method addToGame(){
 		game.addVisual(self)
 	}
+	
+	method esPared() {
+		return self.image() == "ladrillo-pared.png"
+	}
+	
+	method colisionoConCrash() {
+		return game.colliders(self).contains(crash)
+	}
 }
 
 class ObstaculoSuelo inherits Obstaculo (position=positionFija.nivelDelPiso()){
@@ -89,9 +97,15 @@ class ColisionadorSuelos {
 	}
 }
 
+class ColisionadorPared inherits ColisionadorSuelos {
+	
+	override method position() = colisionado.position().left(1)
+
+}
+
 class Enemigo inherits Obstaculo {
 	
-	override method image() = "enemigo.png"
+	//override method image() = "enemigo.png"
 	
 	override method danio() = 300
 
@@ -100,3 +114,29 @@ class Enemigo inherits Obstaculo {
 		//generados.remove(self)
 	}
 }
+
+class Pared inherits Obstaculo {
+	
+	// override method image() = "ladrillo-pared.png"
+	
+	override method position() = positionFija.sobreElPiso()
+	
+	override method addToGame(){
+		super()
+		const colisionador = new ColisionadorPared(colisionado = self)
+		game.addVisual(colisionador)
+	}
+	
+	method noDejarAvanzar(personaje) {
+		game.say(personaje, "Debo saltar el escalon")
+		
+	}
+	
+	override method chocar(personaje) {
+		self.noDejarAvanzar(personaje)
+	}
+	
+	
+}
+
+

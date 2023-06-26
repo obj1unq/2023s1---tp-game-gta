@@ -15,6 +15,7 @@ object myScreen {
 		game.width(21)
 		
 		game.addVisual(startScreen)
+		//self.reproducirMusica()
 		
 		//personajes y acciones
 		
@@ -34,6 +35,10 @@ object myScreen {
 			game.addVisual(lifeBar)
 			crash.estadoInicial()
 			game.errorReporter(displayVidaCounter) //TODO: comentar esto para entrega final.
+	}
+	
+	method reproducirMusica() {
+		game.schedule(100, { => game.sound("crash_bandicoot_loading.mp3").play()})
 	}
 	
 	method agregarComandos(){

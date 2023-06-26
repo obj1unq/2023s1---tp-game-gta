@@ -75,6 +75,7 @@ object crash {
 		image = muerte.image()
 		game.removeTickEvent("CORRER")
 	}
+	
 }
 
 
