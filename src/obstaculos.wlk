@@ -1,7 +1,7 @@
 import wollok.game.*
 import posiciones.*
 import escenario.*
-import vidas.*
+import vidas1.*
 import crash.*
 
 object aguaFactory {	

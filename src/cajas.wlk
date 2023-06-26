@@ -2,7 +2,7 @@ import wollok.game.*
 import crash.*
 import posiciones.*
 import escenario.*
-import vidas.*
+import vidas1.*
 //********* generadores de cajas *********************
 object cajaBombaFactory {
 	method nuevo() {

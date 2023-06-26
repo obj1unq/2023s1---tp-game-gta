@@ -2,7 +2,7 @@ import wollok.game.*
 import crash.*
 import estados.*
 import screens.*
-import vidas.*
+import vidas1.*
 import cajas.*
 import escenario.*
 import obstaculos.*

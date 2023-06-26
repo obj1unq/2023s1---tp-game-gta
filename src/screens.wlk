@@ -3,7 +3,7 @@ import crash.*
 import escenario.*
 import obstaculos.*
 import cajas.*
-import vidas.*
+import vidas1.*
 
 
 object myScreen {

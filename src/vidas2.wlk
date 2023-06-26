@@ -1,3 +1,6 @@
+//NUESTRO PRIMER VIDAS
+
+
 import wollok.game.*
 import crash.*
 import estados.*
@@ -160,12 +163,3 @@ object displayVidaCounter{
 	
 	method textColor() = "000000ff" //rgb(00,00,00,00)
 }
-
-
-
-
-
-
-
-
-

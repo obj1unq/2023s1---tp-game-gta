@@ -1,5 +1,5 @@
 import wollok.game.*
-import vidas.*
+import vidas1.*
 import estados.*
 import screens.*
 
