@@ -4,7 +4,7 @@ import estados.*
 
 object muerto {
 	method nombre() = "muerto"
-	method tope() = 0.01
+	method tope() = 0
 }
 
 object agonia {

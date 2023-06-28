@@ -42,9 +42,13 @@ object myScreen {
 	}
 	
 	method reproducirMusica() {
-		game.schedule(100, { => game.sound("crash_bandicoot_loading.mp3").play()})
+		//game.schedule(100, { => game.sound("crash_bandicoot_loading.mp3").play()})
+		const backgroundMusic = game.sound("crash_bandicoot_loading.mp3")
+		backgroundMusic.shouldLoop(true)
+		game.schedule(100, { backgroundMusic.play()} )
+
 	}
-	
+		
 	method agregarComandos(){
 		keyboard.space().onPressDo{crash.saltar()}
 		

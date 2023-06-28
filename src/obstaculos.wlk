@@ -116,7 +116,15 @@ class ColisionadorPared inherits ColisionadorSuelos {
 }
 
 //class Enemigo inherits Obstaculo (image="enemigo.png", danio=300) {}
-class Enemigo inherits Obstaculo (danio=300) {}
+class Enemigo inherits Obstaculo (danio=300) {
+	
+	method consecuenciaChoque() = grunido
+	
+	override method chocar(personaje) {
+		super(personaje)
+		efectosColision.colisionar(self)
+	}
+}
 
 class Pared inherits Obstaculo (image="ladrillo-pared.png") {
 	
