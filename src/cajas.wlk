@@ -2,7 +2,7 @@ import wollok.game.*
 import crash.*
 import posiciones.*
 import escenario.*
-import vidas.*
+import vidas1.*
 //********* generadores de cajas *********************
 object cajaBombaFactory {
 	method nuevo() {
@@ -46,7 +46,6 @@ object cajaManager {
 //************ Cajas **********************************
 
 class Caja{
-	//const probabilidadAparicion = 0
 	
 	var property position
 	method image()
@@ -55,6 +54,9 @@ class Caja{
 		//personaje.agarrar(self)
 		//cajaManager.eliminar(self)
 	}
+	
+	method esParedColisionada() = false
+	
 }
 
 class CajaBomba inherits Caja {
@@ -64,7 +66,6 @@ class CajaBomba inherits Caja {
 	override method chocar(personaje){
 		super(personaje)
 		personaje.restarVida(self.danio())
-//		game.say(messagePoint, "perdí una vida!")
 	}
 }
 
@@ -77,7 +78,6 @@ class CajaBonus inherits Caja {
     override method chocar(personaje){
     	super(personaje)
     	personaje.sumarVida(self.contenido().cantidad())
-//		game.say(messagePoint, "vida extra!")
     }	
 }
 
