@@ -1,5 +1,5 @@
 import wollok.game.*
-import vidas.*
+import vidas1.*
 import estados.*
 import screens.*
 
@@ -8,7 +8,7 @@ object crash {
 	const posicionSalto = game.at(1, 5)
 	var property position = posicionInicial
 	var property image = "crash-1.png"
-	const property vida = new Vida()// 4 objetos vidas en collection?
+	const property vida = vidaCrash
 	var property estadoActual = reposo
 	
 	method salto() {
@@ -32,12 +32,13 @@ object crash {
 	}
 	
 	method validarSalto(){
-		if (game.hasVisual(saltando)) { //--> si la y no es 0?
-			game.say(messagePoint, "Ya estoy saltando!")
+		if (self.position() == posicionSalto) {
+			throw new Exception(message ="Ya estoy saltando!")
 		}
 	}
+	
 	method saltar() {
-		// self.validarSalto() --> como solucionarlo? 
+		self.validarSalto() 
 		self.salto()
 		game.schedule(800, {self.estadoInicial()})
 	}
@@ -75,12 +76,16 @@ object crash {
 		image = muerte.image()
 		game.removeTickEvent("CORRER")
 	}
+	
+	method frenarPorPared() {
+		game.say(messagePoint, "Debo saltar la pared")
+	}
 }
 
 
 
 object messagePoint {
 	method image() = 'empty.png'
-	method position() = game.at(1, 3)
+	method position() = crash.position().up(1)
 }
 

@@ -1,48 +1,42 @@
 import wollok.game.*
 import posiciones.*
 import escenario.*
-import vidas.*
+import vidas1.*
 import crash.*
 
 object aguaFactory {	
 	method nuevo() {
-		return new Agua (danio = 200)
+		return new Agua ()
 	}
 }
 
 object lavaFactory {
 	method nuevo() {
-		return new Lava(danio=400)
+		return new Lava()
 	}
 }
 
-object escalonFactory {
+object paredFactory {
 	method nuevo() {
-		return new Obstaculo(image="ladrillo-pared.png")
+		return new Pared()
 	}
 }
 
 object enemigoFactory {
 	method nuevo() {
-		return new Enemigo(image="enemigo.png")
+		return new Enemigo()
 	}
 }
 
 
 object obstaculosManager {
 	
-	//const generados = #{}
-	const limite = 3 // limite segun nivel?
-	const obstaculosFactory = [lavaFactory, aguaFactory, escalonFactory, enemigoFactory]
+	const obstaculosFactory = [lavaFactory, aguaFactory, paredFactory, enemigoFactory]
 	
 	method generar() {
-//		if(generados.size() < limite) {
 			const obstaculo = self.nuevoObstaculo()	
-			//game.addVisual(obstaculo)
 			obstaculo.addToGame()
-//			generados.add(obstaculo)
 			escenario.agregarElemento(obstaculo)
-//		}
 	}
 	
 	method elegirFactory() {
@@ -67,6 +61,13 @@ class Obstaculo {
 	method addToGame(){
 		game.addVisual(self)
 	}
+	
+	method esPared() {
+		return self.image() == "ladrillo-pared.png"
+	}
+	
+	method esParedColisionada() = false
+	
 }
 
 class ObstaculoSuelo inherits Obstaculo (position=positionFija.nivelDelPiso()){
@@ -77,9 +78,9 @@ class ObstaculoSuelo inherits Obstaculo (position=positionFija.nivelDelPiso()){
 	}
 }
 
-class Agua inherits ObstaculoSuelo (image="agua.png") {}
+class Agua inherits ObstaculoSuelo (image="agua.png", danio=200) {}
 
-class Lava inherits ObstaculoSuelo (image="lava1.png") {}
+class Lava inherits ObstaculoSuelo (image="lava1.png", danio=400) {}
 
 class ColisionadorSuelos {
 	var colisionado
@@ -89,14 +90,40 @@ class ColisionadorSuelos {
 	}
 }
 
-class Enemigo inherits Obstaculo {
+class ColisionadorPared inherits ColisionadorSuelos {
 	
-	override method image() = "enemigo.png"
+	override method position() = colisionado.position().left(2)
 	
-	override method danio() = 300
-
-	method serEliminado() {
-		//game.removeVisual(self)
-		//generados.remove(self)
-	}
 }
+
+class Enemigo inherits Obstaculo (image="enemigo.png", danio=300) {}
+
+class Pared inherits Obstaculo (image="ladrillo-pared.png") {
+	
+	var colisionadorTest = null
+	
+	override method addToGame() {
+		super()
+		const colisionador = new ColisionadorPared(colisionado = self)
+		game.addVisual(colisionador)
+		colisionadorTest = colisionador
+	}
+	
+	method noDejarAvanzar(personaje) {
+		
+		personaje.frenarPorPared()
+		
+	}
+	
+	override method chocar(personaje) {
+		self.noDejarAvanzar(personaje)
+	}
+	
+	override method esParedColisionada() {
+		return game.colliders(colisionadorTest).contains(crash)
+	}
+	
+	
+}
+
+

@@ -3,8 +3,9 @@ import crash.*
 import escenario.*
 import obstaculos.*
 import cajas.*
-import vidas.*
+import vidas1.*
 import timer.*
+
 
 
 object myScreen {
@@ -16,6 +17,7 @@ object myScreen {
 		game.width(21)
 		
 		game.addVisual(startScreen)
+		//self.reproducirMusica()
 		
 		//personajes y acciones
 		
@@ -36,7 +38,11 @@ object myScreen {
 			game.addVisual(timer)
 			game.addVisual(lifeBar)
 			crash.estadoInicial()
-			game.errorReporter(displayVidaCounter) //TODO: comentar esto para entrega final.
+			game.errorReporter(messagePoint)
+	}
+	
+	method reproducirMusica() {
+		game.schedule(100, { => game.sound("crash_bandicoot_loading.mp3").play()})
 	}
 	
 	method agregarComandos(){

@@ -1,7 +1,6 @@
 import wollok.game.*
 import posiciones.*
-//import obstaculos.*
-//import cajas.*
+import obstaculos.*
 
 
 class Nube {
@@ -10,11 +9,12 @@ class Nube {
 	method image() {
 		return "nube.png"
 	}
+	
+	method esParedColisionada() = false
+
 }
 
 object nubeManager {
-	//const property nubesGeneradas = []
-	//const limite = 3 cómo controlar que haya solo 3 en pantalla? sino se puede setear un tiempo de espaciado grande
 	
 	method nuevo(_position){
 		return new Nube(altura= _position.y(), position= _position)
@@ -23,7 +23,6 @@ object nubeManager {
 	method generar(){
 			const nube = self.nuevo(positionRandomizer.nube())
 			game.addVisual(nube)
-			//nubesGeneradas.add(nube)
 			escenario.agregarElemento(nube)
 	}
 }
@@ -35,10 +34,12 @@ object escenario{
 	method agregarElemento(cosa){
 		self.elementosCreados().add(cosa)
 	}
-	
+		
 	method avanzar(cosa){
-		const nuevoX= cosa.position().x()-1
+		if (not cosa.esParedColisionada()) {
+			const nuevoX= cosa.position().x()-1
 		cosa.position(game.at(nuevoX, cosa.position().y()))
+		}
 	}
 	
 	method avanzarEscenario(){
