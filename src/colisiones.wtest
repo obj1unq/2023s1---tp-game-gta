@@ -10,11 +10,11 @@ import posiciones.*
 
 describe "Colisiones de Crash" {
 	// Obstaculos
-	const agua = new Agua (danio = 200)
-	const agua2 = new Agua (danio = 200)
-	const lava = new Lava(danio=400)
-	const escalon = new Obstaculo(image="ladrillo-pared.png") //Pared
-	const enemigo = new Enemigo(image="enemigo.png")
+	const agua = new Agua ()
+	const agua2 = new Agua ()
+	const lava = new Lava()
+	const escalon = new Pared()
+	const enemigo = new Enemigo()
 	// caja bomba
 	const bomba = new CajaBomba(position = positionRandomizer.bonus())
 	// Bonus
@@ -82,7 +82,6 @@ describe "Colisiones de Crash" {
 	test "Crash debilitado a 700 (por enemigo) choca con cajaVida y suma 100 de vida"{
 		assert.equals(1000, crash.vida().contador())
 		enemigo.chocar(crash)
-		//assert.equals(700, crash.vida().contador())
 		cajaVida.chocar(crash)
 		assert.equals(800, crash.vida().contador())
 	}

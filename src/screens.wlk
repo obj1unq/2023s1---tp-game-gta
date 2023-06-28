@@ -34,7 +34,7 @@ object myScreen {
 			game.addVisual(displayVidaCounter)
 			game.addVisual(lifeBar)
 			crash.estadoInicial()
-			game.errorReporter(displayVidaCounter) //TODO: comentar esto para entrega final.
+			game.errorReporter(messagePoint)
 	}
 	
 	method reproducirMusica() {

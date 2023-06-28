@@ -43,41 +43,25 @@ object lifeBar {
 	method position() = game.at(8, 13)
 	
 	method porcentajeVida(nroVida) {
-		return nroVida / totalVida //si lo redondeo?
+		return nroVida / totalVida
+	}
+	
+	method distanciaAEseRango(rango, porcentaje) {
+		return (rango.tope() - porcentaje).abs()
 	}
 	
 	method closerTo(nroVida){
 		const porcentaje = self.porcentajeVida(nroVida)
-		return rangos.min({rango => (rango.tope() - porcentaje).abs()})//el % tope del que esta mas cerca
+		return rangos.min({rango => self.distanciaAEseRango(rango, porcentaje)}) //el % tope del que esta mas cerca
 	}
 	
 	method actualizarBarraPara(nroVida){
 		currentBar = self.closerTo(nroVida)
 	}
-		
-//	method estaEnRango(nroVida){
-//		const porcentaje = self.porcentajeVida(nroVida)
-//		return porcentaje.between(currentBar.minimo(), currentBar.maximo())
-//	}
-//	
-//	method cambiarRango(nroVida){
-//		if (nroVida < currentBar.minimo() ){
-//			currentBar.anterior().nombre()
-//		} else currentBar.siguiente().nombre()
-//	}
-//	
-//	method actualizarBarraPara(nroVida){
-//		if (not self.estaEnRango(nroVida)){			
-//			self.cambiarRango(nroVida)
-//		}
-//	}
-		
-//	method rangoEnQueSeEncuentra(valor){
-//		ptjeValor.max(topeRango)
-//	}
+	
 }
 
-class Vida {
+object vidaCrash {
 	var contador = 1000
 	
 	method total() = 1000
@@ -112,7 +96,7 @@ object displayVidaCounter{
 		return crash.vida().contador().toString()
 	}
 	
-	method textColor() = "000000ff" //rgb(00,00,00,00)
+	method textColor() = "000000ff"
 }
 
 

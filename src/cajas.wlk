@@ -46,7 +46,6 @@ object cajaManager {
 //************ Cajas **********************************
 
 class Caja{
-	//const probabilidadAparicion = 0
 	
 	var property position
 	method image()
@@ -56,7 +55,8 @@ class Caja{
 		//cajaManager.eliminar(self)
 	}
 	
-	method esPared() = false
+	method esParedColisionada() = false
+	
 }
 
 class CajaBomba inherits Caja {
@@ -66,7 +66,6 @@ class CajaBomba inherits Caja {
 	override method chocar(personaje){
 		super(personaje)
 		personaje.restarVida(self.danio())
-//		game.say(messagePoint, "perdí una vida!")
 	}
 }
 
@@ -79,7 +78,6 @@ class CajaBonus inherits Caja {
     override method chocar(personaje){
     	super(personaje)
     	personaje.sumarVida(self.contenido().cantidad())
-//		game.say(messagePoint, "vida extra!")
     }	
 }
 

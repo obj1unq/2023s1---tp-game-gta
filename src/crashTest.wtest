@@ -30,14 +30,14 @@ describe " test de  posiciones de Crash  " {
 		assert.equals(game.at(1,2),crash.position())
         crash.estadoInicial()       
         crash.saltar()
-        game.schedule(100,{assert.throwsExceptionWithMessage("Crash ya esta saltando",{crash.saltar()})})
+        game.schedule(100,{assert.throwsExceptionWithMessage("Ya estoy saltando!",{crash.saltar()})})
         game.schedule(800,{assert.doesNotThrowException({crash.saltar()})})
 	}
 }
 
 describe " Test de  Estados de Crash" {
 	
-	test "Crash cambia su estado inicial" { //TODO: este se puede borrar
+	test "Crash cambia su estado inicial sin schedule" {
         
         assert.equals(reposo,crash.estadoActual())      
         crash.cambiarEstado()
@@ -48,9 +48,10 @@ describe " Test de  Estados de Crash" {
         assert.equals(reposo,crash.estadoActual())
 	}
 	
-	test "Crash corre y vuelve a su  estado inicial" {
+	test "Crash corre y vuelve a su  estado inicial con schedule" {
         
         assert.equals(reposo,crash.estadoActual())
+        crash.estadoInicial()
         game.schedule(100,{assert.equals(pasoDerecho,crash.estadoActual())})
         game.schedule(200,{assert.equals(pasoIzquierdo,crash.estadoActual())})
         game.schedule(300,{assert.equals(reposo,crash.estadoActual())}) 
