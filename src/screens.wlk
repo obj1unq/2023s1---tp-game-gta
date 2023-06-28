@@ -4,6 +4,8 @@ import escenario.*
 import obstaculos.*
 import cajas.*
 import vidas1.*
+import timer.*
+
 
 
 object myScreen {
@@ -24,6 +26,7 @@ object myScreen {
 			self.addMainScreen()
 			self.addEscenarioMovil()
 			self.agregarComandos()
+			game.onTick(1000, "CONTAR_TIEMPO", {timer.contarSegundo()})
 		}
 	}
 	
@@ -32,6 +35,7 @@ object myScreen {
 			game.addVisual(crash)
 			game.addVisual(messagePoint)
 			game.addVisual(displayVidaCounter)
+			game.addVisual(timer)
 			game.addVisual(lifeBar)
 			crash.estadoInicial()
 			game.errorReporter(messagePoint)
@@ -106,6 +110,7 @@ object lastScreen inherits Screen {
 	method endGame() {
 		game.clear() 
 		game.addVisual(self)
+		timer.addTiempoFinal()
 	}	
 }
 
