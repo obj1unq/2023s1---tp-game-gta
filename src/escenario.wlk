@@ -34,11 +34,7 @@ object escenario{
 	method agregarElemento(cosa){
 		self.elementosCreados().add(cosa)
 	}
-	
-//	method esParedColisionado(cosa) {
-//		 return cosa.esPared() and cosa.colisionoConCrash()
-//	}
-//	
+		
 	method avanzar(cosa){
 		if (not cosa.esParedColisionada()) {
 			const nuevoX= cosa.position().x()-1
