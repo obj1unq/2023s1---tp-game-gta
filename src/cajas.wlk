@@ -3,6 +3,8 @@ import crash.*
 import posiciones.*
 import escenario.*
 import vidas1.*
+import efectos.*
+
 //********* generadores de cajas *********************
 object cajaBombaFactory {
 	method nuevo() {
@@ -49,10 +51,14 @@ class Caja{
 	
 	var property position
 	method image()
+	
+	method consecuenciaChoque()
+	
 	method chocar(personaje){//es correcto parametrizar al personaje o pasarlo como atributo?
 		//validar colision
 		//personaje.agarrar(self)
 		//cajaManager.eliminar(self)
+		efectosColision.colisionar(self)
 	}
 	
 	method esParedColisionada() = false
@@ -62,6 +68,8 @@ class Caja{
 class CajaBomba inherits Caja {
 	method danio() = 30
 	override method image() = "caja-bomba.png"
+	
+	override method consecuenciaChoque() = explosivo
 	
 	override method chocar(personaje){
 		super(personaje)
@@ -83,10 +91,14 @@ class CajaBonus inherits Caja {
 
 class CajaVida inherits CajaBonus {
 	override method contenido() = bonusVida
+	
+	override method consecuenciaChoque() = corazon
 }
 
 class CajaManzana inherits CajaBonus {
 	override method contenido() = bonusManzana
+	
+	override method consecuenciaChoque() = manzana
 }
 
 //********** Bonus **********

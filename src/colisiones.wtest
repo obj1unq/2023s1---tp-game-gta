@@ -14,7 +14,7 @@ describe "Colisiones de Crash" {
 	const agua2 = new Agua ()
 	const lava = new Lava()
 	const escalon = new Pared()
-	const enemigo = new Enemigo()
+	const enemigo = new Enemigo(image = enemigoFactory.cualquierImagen())
 	// caja bomba
 	const bomba = new CajaBomba(position = positionRandomizer.bonus())
 	// Bonus

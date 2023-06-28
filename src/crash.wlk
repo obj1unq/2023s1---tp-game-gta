@@ -2,6 +2,7 @@ import wollok.game.*
 import vidas1.*
 import estados.*
 import screens.*
+import efectos.*
 
 object crash {
 	const posicionInicial = game.at(1, 2)
@@ -68,6 +69,7 @@ object crash {
 	method morirSiCorresponde(){
 		if (self.estaMuerto()){
 			self.dejarDeCorrer()
+			drNeoCortex.vanagloriarse()
 			myScreen.gameOver()
 		}
 	}

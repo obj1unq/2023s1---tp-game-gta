@@ -83,7 +83,7 @@ class Screen {
 
 
 object startScreen inherits Screen{
-	override method image() = '2.jpg'		
+	override method image() = 'screen-start.png'		
 }
 
 object mainScreen inherits Screen{
@@ -105,7 +105,7 @@ object pausedScreen inherits Screen {
 
 
 object lastScreen inherits Screen {
-	override method image() = 'the-end.png'
+	override method image() = 'screen-final.png'
 	
 	method endGame() {
 		game.clear() 
