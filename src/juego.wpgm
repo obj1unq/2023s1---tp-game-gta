@@ -3,7 +3,7 @@ import screens.*
 import crash.*
 import escenario.*
 import obstaculos.*
-import cajas.*
+import cajas.*    
 import vidas1.*
 
 program juego {
@@ -14,3 +14,4 @@ program juego {
 	   
 	game.start()
 }
+   

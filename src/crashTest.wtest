@@ -23,7 +23,7 @@ describe " test de  posiciones de Crash  " {
         assert.equals(game.at(1,2),crash.position())
         crash.estadoInicial()       
         crash.saltar()
-        game.schedule(290,{assert.equals(game.at(1,2),crash.position())})
+        game.schedule(290,{assert.equals(game.at(1,2),crash.position())}) // no usar shcedule para tests, llamar a mano lo que haria el schedule
 	}
 	
 	test "Crash no responde al comando Salto mientras esta en el aire"{

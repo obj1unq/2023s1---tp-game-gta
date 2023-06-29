@@ -38,7 +38,7 @@ object enemigoFactory {
 
 object obstaculosManager {
 	
-	const obstaculosFactory = [lavaFactory, aguaFactory, paredFactory, enemigoFactory]
+	var property obstaculosFactory = [lavaFactory, aguaFactory, paredFactory, enemigoFactory]
 	
 	method generar() {
 			const obstaculo = self.nuevoObstaculo()	

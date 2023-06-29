@@ -66,7 +66,7 @@ class Caja{
 }
 
 class CajaBomba inherits Caja {
-	method danio() = 30
+	method danio() = 100
 	override method image() = "caja-bomba.png"
 	
 	override method consecuenciaChoque() = explosivo

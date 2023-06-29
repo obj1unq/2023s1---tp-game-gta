@@ -7,13 +7,15 @@ import cajas.*
 import escenario.*
 import obstaculos.*
 import posiciones.*
+import soundProducer.*
+import efectos.*
 
 describe "Colisiones de Crash" {
 	// Obstaculos
 	const agua = new Agua ()
 	const agua2 = new Agua ()
 	const lava = new Lava()
-	const escalon = new Pared()
+	const pared = new Pared()
 	const enemigo = new Enemigo(image = enemigoFactory.cualquierImagen())
 	// caja bomba
 	const bomba = new CajaBomba(position = positionRandomizer.bonus())
@@ -22,15 +24,27 @@ describe "Colisiones de Crash" {
 	const cajaManzana = new CajaManzana(position = positionRandomizer.bonus())
 	
 	method initialize(){
+		controlDeSonido.habilitado(false)
 		game.clear()
 		myScreen.configInicial()
 		myScreen.addMainScreen()
-		game.onTick (4000, "GENERAR_NUBES", {nubeManager.generar()})
-		game.onTick (7000, "GENERAR_ELEMENTOS", {obstaculosManager.generar()})
-		game.onTick(180, "AVANZAR_ESCENARIO", {escenario.avanzarEscenario()})
-		game.onTick(7000, "GENERAR_CAJAS", {cajaManager.generar()})
-		
-		
+		myScreen.addEscenarioMovil()
+		agua.position(crash.position())
+		game.addVisual(agua)
+		agua2.position(crash.position())
+		game.addVisual(agua2)
+		lava.position(crash.position())
+		game.addVisual(lava)
+		pared.position(crash.position())
+		game.addVisual(pared)
+		enemigo.position(crash.position())
+		game.addVisual(enemigo)
+		bomba.position(crash.position())
+		game.addVisual(bomba)
+		cajaVida.position(crash.position())
+		game.addVisual(cajaVida)
+		cajaManzana.position(crash.position())
+		game.addVisual(cajaManzana)		
 	}
 	
 	// OBTACULOS QUE RESTAN VIDA ------------------------------
@@ -46,9 +60,9 @@ describe "Colisiones de Crash" {
 		assert.equals(600, crash.vida().contador())
 	}
 	
-	test "Crash choca con escalon y conserva 1000 de vida "{
+	test "Crash choca con pared y conserva 1000 de vida "{
 		assert.equals(1000, crash.vida().contador())
-		escalon.chocar(crash)
+		pared.chocar(crash)
 		assert.equals(1000, crash.vida().contador())
 	}
 	
@@ -58,18 +72,18 @@ describe "Colisiones de Crash" {
 		assert.equals(700, crash.vida().contador())
 	}
 	
-	test "Crash choca con bomba y pierde 30 de vida "{
+	test "Crash choca con bomba y pierde 100 de vida "{
 		assert.equals(1000, crash.vida().contador())
 		bomba.chocar(crash)
-		assert.equals(970, crash.vida().contador())
+		assert.equals(900, crash.vida().contador())
 	}
 	
-	test "Crash choca con agua 2 veces, lava, enemigo y muere"{
+	test "Crash choca con agua, lava, enemigo y muere"{
 		assert.equals(1000, crash.vida().contador())
 		agua.chocar(crash)
-		agua2.chocar(crash)
 		lava.chocar(crash)
 		enemigo.chocar(crash)
+		bomba.chocar(crash) // no testear cosas que dependan de que pase cierto tiempo
 		assert.equals(0, crash.vida().contador())
 		assert.that(crash.estaMuerto())
 	}
@@ -120,43 +134,40 @@ describe "Colisiones de Crash" {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// ----- ACTUALIZACION DE BARRA DE VIDA --------------------------------------------------
 	
-	test "Crash choca con agua y bomba (vida 770) y queda menosSaludable en la barra de vida"{
+	test "Crash choca con agua y bomba (vida 700) y queda menosSaludable en la barra de vida"{
 		assert.equals(saludable, lifeBar.currentBar())
 		agua.chocar(crash)
 		bomba.chocar(crash)
-		assert.equals(770, crash.vida().contador())
-		assert.equals(menosSaludable, lifeBar.currentBar())
-	}
-	
-	test "Crash choca con 2 agua y bomba (vida 570) y queda peligroLeve en la barra de vida"{
-		assert.equals(saludable, lifeBar.currentBar())
-		agua.chocar(crash)
-		agua2.chocar(crash)
-		bomba.chocar(crash)
-		assert.equals(570, crash.vida().contador())
+		assert.equals(700, crash.vida().contador())
 		assert.equals(peligroLeve, lifeBar.currentBar())
 	}
 	
-	test "Crash choca con 2 agua, bomba y cajaVida (vida 670) y queda peligroLeve en la barra de vida"{
+	test "Crash choca con agua y bomba (vida 700) y queda peligroLeve en la barra de vida"{
 		assert.equals(saludable, lifeBar.currentBar())
 		agua.chocar(crash)
-		agua2.chocar(crash)
+		bomba.chocar(crash)
+		assert.equals(700, crash.vida().contador())
+		assert.equals(peligroLeve, lifeBar.currentBar())
+	}
+	
+	test "Crash choca con agua, bomba y cajaVida (vida 800) y queda peligroLeve en la barra de vida"{
+		assert.equals(saludable, lifeBar.currentBar())
+		agua.chocar(crash)
 		bomba.chocar(crash)
 		cajaVida.chocar(crash)
-		assert.equals(670, crash.vida().contador())
-		assert.equals(peligroLeve, lifeBar.currentBar()) // esta mas cerca de peligro leve segun el closerTo
+		assert.equals(800, crash.vida().contador())
+		assert.equals(menosSaludable, lifeBar.currentBar()) // esta mas cerca de peligro leve segun el closerTo
 	}
 	
 	//cuando cae en el mismo rango
-	test "Crash choca con agua 2 veces, lava, bomba y queda agonia en la barra de vida"{
+	test "Crash choca con agua, lava, bomba y queda agonia en la barra de vida"{
 		assert.equals(saludable, lifeBar.currentBar())
 		agua.chocar(crash)
-		agua2.chocar(crash)
 		lava.chocar(crash) 
-		assert.equals(200, crash.vida().contador())
-		assert.equals(agonia, lifeBar.currentBar()) // 200 entra en el tope agonia 0.2
+		assert.equals(400, crash.vida().contador())
+		assert.equals(peligroModerado, lifeBar.currentBar()) // 200 entra en el tope agonia 0.2
 		bomba.chocar(crash)
-		assert.equals(170, crash.vida().contador())
+		assert.equals(300, crash.vida().contador())
 		assert.equals(agonia, lifeBar.currentBar())
 	}
 	
@@ -171,7 +182,8 @@ describe "Colisiones de Crash" {
 	test "Crash llega a 0 de vida, y muere" {
 		assert.equals(1000, crash.vida().contador())
 		lava.chocar(crash)
-		lava.chocar(crash)
+		bomba.chocar(crash)
+		enemigo.chocar(crash)
 		agua.chocar(crash)
 		assert.equals(0, crash.vida().contador())
 		assert.that(crash.estaMuerto())

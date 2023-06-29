@@ -17,7 +17,7 @@ object myScreen {
 		game.width(21)
 		
 		game.addVisual(startScreen)
-		//self.reproducirMusica()
+		self.reproducirMusica()
 		
 		//personajes y acciones
 		
@@ -46,6 +46,7 @@ object myScreen {
 		const backgroundMusic = game.sound("crash_bandicoot_loading.mp3")
 		backgroundMusic.shouldLoop(true)
 		game.schedule(100, { backgroundMusic.play()} )
+		backgroundMusic.volume(0.1)
 
 	}
 		
