@@ -1,15 +1,17 @@
 import wollok.game.*
+import screens.*
 import crash.*
+import escenario.*
+import obstaculos.*
+import cajas.*    
+import vidas1.*
 
 program juego {
-	//tablero
-	game.title("Crash")
-	game.height(15)
-	game.width(21)
-	game.boardGround('campo.jpg')
-	//personajes y acciones
-	//game.addVisual(crash)
-	//game.addVisual(pared)
-
+	
+	
+	//PANTALLA DE INICIO
+	myScreen.configInicial()
+	   
 	game.start()
 }
+   
