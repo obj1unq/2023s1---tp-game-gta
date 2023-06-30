@@ -58,25 +58,20 @@ object lifeBar {
 	method actualizarBarraPara(nroVida){
 		currentBar = self.closerTo(nroVida)
 	}
-	
 }
 
 object vidaCrash {
-	var contador = 1000
-	
-	method total() = 1000
-	
+	const property total = 1000
+	var contador = total
+		
 	method contador() = contador
 	
 	method fortalecer(cantidad) {
-		
-	 	contador = (contador + cantidad).min(1000)
+	 	contador = (contador + cantidad).min(total)
 	 	lifeBar.actualizarBarraPara(contador)
-		
 	}
 	 
 	method debilitar(cantidad) {
-		
 	 	contador = (contador - cantidad).max(0)
 	 	lifeBar.actualizarBarraPara(contador)
 	 	crash.morirSiCorresponde()	 	
@@ -87,10 +82,9 @@ object vidaCrash {
 // -------- VIDA DE CRASH ------------------
 
 // --- Contador Numerico de la vida
+
 object displayVidaCounter{
-	method position() {
-		return game.at( 7, 13)
-	}
+	method position() = game.at(7, 13)
 	
 	method text(){
 		return crash.vida().contador().toString()

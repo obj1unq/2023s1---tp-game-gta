@@ -38,7 +38,7 @@ object enemigoFactory {
 
 object obstaculosManager {
 	
-	var property obstaculosFactory = [lavaFactory, aguaFactory, paredFactory, enemigoFactory]
+	var property obstaculosFactory = #{lavaFactory, aguaFactory, paredFactory, enemigoFactory}
 	
 	method generar() {
 			const obstaculo = self.nuevoObstaculo()	
@@ -46,18 +46,19 @@ object obstaculosManager {
 			escenario.agregarElemento(obstaculo)
 	}
 	
-	method elegirFactory() {
-	     return obstaculosFactory.anyOne()  
-	}
-
 	method nuevoObstaculo() {
 		return self.elegirFactory().nuevo()
+	}
+	
+	method elegirFactory() {
+		const factories = obstaculosFactory.asList()
+	    return factories.anyOne()  
 	}
 }
 
 class Obstaculo {
 	
-	 var property position  = positionFija.sobreElPiso()
+	 var property position  = positionPiso.sobreElPiso()
 	 var property danio = 0
 	 var property image
 
@@ -68,16 +69,11 @@ class Obstaculo {
 	method addToGame(){
 		game.addVisual(self)
 	}
-	
-	method esPared() {
-		return self.image() == "ladrillo-pared.png"
-	}
-	
+		
 	method esParedColisionada() = false
-	
 }
 
-class ObstaculoSuelo inherits Obstaculo (position=positionFija.nivelDelPiso()){
+class ObstaculoSuelo inherits Obstaculo (position=positionPiso.nivelDelPiso()){
 	
 	method consecuenciaChoque()
 	
@@ -110,12 +106,10 @@ class ColisionadorSuelos {
 }
 
 class ColisionadorPared inherits ColisionadorSuelos {
-	
 	override method position() = colisionado.position().left(2)
 	
 }
 
-//class Enemigo inherits Obstaculo (image="enemigo.png", danio=300) {}
 class Enemigo inherits Obstaculo (danio=300) {
 	
 	method consecuenciaChoque() = grunido
@@ -128,19 +122,16 @@ class Enemigo inherits Obstaculo (danio=300) {
 
 class Pared inherits Obstaculo (image="ladrillo-pared.png") {
 	
-	var colisionadorTest = null
+	var colisionador = null
 	
 	override method addToGame() {
 		super()
-		const colisionador = new ColisionadorPared(colisionado = self)
+		colisionador = new ColisionadorPared(colisionado = self)
 		game.addVisual(colisionador)
-		colisionadorTest = colisionador
 	}
 	
 	method noDejarAvanzar(personaje) {
-		
 		personaje.frenarPorPared()
-		
 	}
 	
 	override method chocar(personaje) {
@@ -148,10 +139,8 @@ class Pared inherits Obstaculo (image="ladrillo-pared.png") {
 	}
 	
 	override method esParedColisionada() {
-		return game.colliders(colisionadorTest).contains(crash)
+		return game.colliders(colisionador).contains(crash)
 	}
-	
-	
 }
 
 

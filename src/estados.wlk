@@ -1,39 +1,32 @@
-// ----- Visuales Movimiento de Crash (corriendo / saltando)
+import wollok.game.*
+// ----- Visuales Movimiento de Crash
 
-
-
-object reposo {
-	method image() = "crash-1.png" 
-
-	method proximo() {
-		return pasoDerecho
-	}
+class Estado {
+	method image()
+	method position() = game.at(1, 2)
 }
 
-object pasoDerecho {
-	method image() = "crash-2.png"
-	
-	method proximo() {
-		return pasoIzquierdo
-	}
+object reposo inherits Estado {
+	override method image() = "crash-1.png" 
+	method proximo() = pasoDerecho
 }
 
-object pasoIzquierdo {
-	method image() = "crash-3.png"
-	
-	method proximo() {
-		return reposo
-	}
+object pasoDerecho inherits Estado {
+	override method image() = "crash-2.png"
+	method proximo() = pasoIzquierdo
 }
 
-object saltando {
-	method image() = "crash-salto-1.png"
-	method proximo() {
-		return reposo
-	}
+object pasoIzquierdo inherits Estado {
+	override method image() = "crash-3.png"
+	method proximo() = reposo
 }
 
-object muerte {
-	method image() = "crash-muerte.png"
-	method proximo() = self
+object saltando inherits Estado {
+	override method image() = "crash-salto-1.png"
+	override method position() = game.at(1, 5)
+	method proximo() = reposo
+}
+
+object muerte inherits Estado {
+	override method image() = "crash-muerte.png"
 }

@@ -8,27 +8,33 @@ import efectos.*
 //********* generadores de cajas *********************
 object cajaBombaFactory {
 	method nuevo() {
-		return new CajaBomba(position = positionRandomizer.bonus())
+		return new CajaBomba()
 	}
 }
 object cajaVidaFactory {
 	method nuevo() {
-		return new CajaVida(position = positionRandomizer.bonus())
+		return new CajaVida()
 	}
 }
 
 object cajaManzanaFactory {
 	method nuevo() {
-		return new CajaManzana(position = positionRandomizer.bonus())
+		return new CajaManzana()
 	}
 }
 
 //********** manejador visual de cajas ***************
 object cajaManager {
-	const cajasFactories = [cajaBombaFactory,cajaVidaFactory,cajaManzanaFactory]
+	const property cajasFactories = #{cajaBombaFactory, cajaVidaFactory, cajaManzanaFactory}
 	
-	method elegirFactory() {
-	     return cajasFactories.anyOne()  
+	
+	method randomFactory() {
+		const factories = cajasFactories.asList()
+	    return factories.anyOne()
+	}
+	
+	method nuevaCaja() {
+		return self.randomFactory().nuevo()
 	}
 	
 	method generar(){
@@ -36,28 +42,18 @@ object cajaManager {
 		game.addVisual(caja)
 		caidaManager.aplicarGravedad(caja)
 	}
-	
-	method eliminar(caja){
-		game.removeVisual(caja)
-	}
-	
-	method nuevaCaja() {
-		return self.elegirFactory().nuevo()
-	}
 }
 //************ Cajas **********************************
 
 class Caja{
 	
-	var property position
+	var property position = positionRandomizer.cajas()
+	
 	method image()
 	
 	method consecuenciaChoque()
 	
-	method chocar(personaje){//es correcto parametrizar al personaje o pasarlo como atributo?
-		//validar colision
-		//personaje.agarrar(self)
-		//cajaManager.eliminar(self)
+	method chocar(personaje){
 		efectosColision.colisionar(self)
 	}
 	
@@ -79,41 +75,32 @@ class CajaBomba inherits Caja {
 
 
 class CajaBonus inherits Caja {
-	method contenido()
+	method cantidadBonus()
 	override method image() = "caja.png"
 	
 	
     override method chocar(personaje){
     	super(personaje)
-    	personaje.sumarVida(self.contenido().cantidad())
+    	personaje.sumarVida(self.cantidadBonus())
     }	
 }
 
 class CajaVida inherits CajaBonus {
-	override method contenido() = bonusVida
+	override method cantidadBonus() = 100
 	
 	override method consecuenciaChoque() = corazon
 }
 
 class CajaManzana inherits CajaBonus {
-	override method contenido() = bonusManzana
+	override method cantidadBonus() = 250
 	
 	override method consecuenciaChoque() = manzana
-}
-
-//********** Bonus **********
-object bonusVida {
-    method cantidad() = 100
-}
-
-object bonusManzana {
-	method cantidad() = 250
 }
 
 //************ CAIDA ******************
 object caidaManager{
 	
-	method acercarAOrigen(cosa){
+	method acercarACrash(cosa){
 		escenario.avanzar(cosa)
 	}
 	
@@ -122,14 +109,18 @@ object caidaManager{
 	}
 	
 	method hayLugarDebajo(cosa){
-		return cosa.position().y() > 2
+		return cosa.position().y() > positionPiso.alturaDelPiso()
+	}
+	
+	method bajar(cosa){
+		cosa.position(cosa.position().down(1))
 	}
 	
 	method caer(cosa){
-		if(self.hayLugarDebajo(cosa)) {			
-			cosa.position(game.at(cosa.position().x(), cosa.position().y() - 1 ))
+		if(self.hayLugarDebajo(cosa)) {
+			self.bajar(cosa)
 		} else {
-			self.acercarAOrigen(cosa)
+			self.acercarACrash(cosa)
 		}
 	}
 }

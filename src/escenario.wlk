@@ -4,8 +4,8 @@ import obstaculos.*
 
 
 class Nube {
-	var property altura = 5
-	var property position = game.at(12,self.altura())	
+	const altura
+	var property position
 	method image() {
 		return "nube.png"
 	}
@@ -37,8 +37,7 @@ object escenario{
 		
 	method avanzar(cosa){
 		if (not cosa.esParedColisionada()) {
-			const nuevoX= cosa.position().x()-1
-		cosa.position(game.at(nuevoX, cosa.position().y()))
+			cosa.position(cosa.position().left(1))
 		}
 	}
 	

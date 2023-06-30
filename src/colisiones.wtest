@@ -7,21 +7,19 @@ import cajas.*
 import escenario.*
 import obstaculos.*
 import posiciones.*
-import soundProducer.*
 import efectos.*
 
 describe "Colisiones de Crash" {
 	// Obstaculos
 	const agua = new Agua ()
-	const agua2 = new Agua ()
 	const lava = new Lava()
 	const pared = new Pared()
 	const enemigo = new Enemigo(image = enemigoFactory.cualquierImagen())
 	// caja bomba
-	const bomba = new CajaBomba(position = positionRandomizer.bonus())
+	const bomba = new CajaBomba()
 	// Bonus
-	const cajaVida = new CajaVida(position = positionRandomizer.bonus())
-	const cajaManzana = new CajaManzana(position = positionRandomizer.bonus())
+	const cajaVida = new CajaVida()
+	const cajaManzana = new CajaManzana()
 	
 	method initialize(){
 		controlDeSonido.habilitado(false)
@@ -31,8 +29,6 @@ describe "Colisiones de Crash" {
 		myScreen.addEscenarioMovil()
 		agua.position(crash.position())
 		game.addVisual(agua)
-		agua2.position(crash.position())
-		game.addVisual(agua2)
 		lava.position(crash.position())
 		game.addVisual(lava)
 		pared.position(crash.position())
@@ -44,7 +40,8 @@ describe "Colisiones de Crash" {
 		cajaVida.position(crash.position())
 		game.addVisual(cajaVida)
 		cajaManzana.position(crash.position())
-		game.addVisual(cajaManzana)		
+		game.addVisual(cajaManzana)
+		crash.correr()		
 	}
 	
 	// OBTACULOS QUE RESTAN VIDA ------------------------------
@@ -83,9 +80,9 @@ describe "Colisiones de Crash" {
 		agua.chocar(crash)
 		lava.chocar(crash)
 		enemigo.chocar(crash)
-		bomba.chocar(crash) // no testear cosas que dependan de que pase cierto tiempo
+		bomba.chocar(crash)
 		assert.equals(0, crash.vida().contador())
-		assert.that(crash.estaMuerto())
+		assert.that(crash.sinVida())
 	}
 	
 	// BONUS QUE SUMAN VIDA ---------------------------------------------
@@ -186,7 +183,7 @@ describe "Colisiones de Crash" {
 		enemigo.chocar(crash)
 		agua.chocar(crash)
 		assert.equals(0, crash.vida().contador())
-		assert.that(crash.estaMuerto())
+		assert.that(crash.sinVida())
 	}
 }
 

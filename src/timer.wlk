@@ -11,7 +11,7 @@ object timer {
 	}
 	
 	method contarSegundo(){
-		if (not crash.estaMuerto()){			
+		if (not crash.sinVida()){			
 			tiempoJugado++
 		}
 	}

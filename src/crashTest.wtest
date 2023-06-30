@@ -21,48 +21,43 @@ describe " test de  posiciones de Crash  " {
     test "Crash salta y vuelve a su posicion inicial " {
         
         assert.equals(game.at(1,2),crash.position())
-        crash.estadoInicial()       
-        crash.saltar()
-        game.schedule(290,{assert.equals(game.at(1,2),crash.position())}) // no usar shcedule para tests, llamar a mano lo que haria el schedule
+        crash.correr()       
+        crash.salto()
+        assert.equals(game.at(1,5),crash.position())
+        crash.cambiarAProximoEstado() //vuelve a correr
+        assert.equals(game.at(1,2),crash.position())
 	}
 	
 	test "Crash no responde al comando Salto mientras esta en el aire"{
 		assert.equals(game.at(1,2),crash.position())
-        crash.estadoInicial()       
-        crash.saltar()
-        game.schedule(100,{assert.throwsExceptionWithMessage("Ya estoy saltando!",{crash.saltar()})})
-        game.schedule(800,{assert.doesNotThrowException({crash.saltar()})})
+        crash.correr()       
+        crash.salto()
+        assert.throwsExceptionWithMessage("Ya estoy saltando!",{crash.saltar()})
+        crash.correr()
+        assert.doesNotThrowException({crash.salto()})
 	}
 }
 
 describe " Test de  Estados de Crash" {
 	
-	test "Crash cambia su estado inicial sin schedule" {
+	test "Crash cambia su estado inicial cuando corre" {
         
         assert.equals(reposo,crash.estadoActual())      
-        crash.cambiarEstado()
+        crash.cambiarAProximoEstado()
         assert.equals(pasoDerecho,crash.estadoActual())
-        crash.cambiarEstado()
+        crash.cambiarAProximoEstado()
         assert.equals(pasoIzquierdo,crash.estadoActual())
-        crash.cambiarEstado()
+        crash.cambiarAProximoEstado()
         assert.equals(reposo,crash.estadoActual())
-	}
-	
-	test "Crash corre y vuelve a su  estado inicial con schedule" {
-        
-        assert.equals(reposo,crash.estadoActual())
-        crash.estadoInicial()
-        game.schedule(100,{assert.equals(pasoDerecho,crash.estadoActual())})
-        game.schedule(200,{assert.equals(pasoIzquierdo,crash.estadoActual())})
-        game.schedule(300,{assert.equals(reposo,crash.estadoActual())}) 
 	}
 	
 	test "Mientras Crash salta su estado cambia a saltando y luego vuelve a reposo" {
 	
 	    assert.equals(reposo, crash.estadoActual())
-	    crash.estadoInicial()
-	    crash.saltar()
-        game.schedule(200,{assert.equals(saltando,crash.estadoActual())})
-        game.schedule(900,{assert.equals(reposo,crash.estadoActual())})
+	    crash.correr()
+	    crash.salto()
+	    assert.equals(saltando,crash.estadoActual())
+	    crash.cambiarAProximoEstado() //vuelve a correr
+	    assert.equals(reposo,crash.estadoActual())
 	}
 }

@@ -5,35 +5,33 @@ import screens.*
 import efectos.*
 
 object crash {
-	const posicionInicial = game.at(1, 2)
-	const posicionSalto = game.at(1, 5)
-	var property position = posicionInicial
-	var property image = "crash-1.png"
-	const property vida = vidaCrash
 	var property estadoActual = reposo
+	var property position = estadoActual.position()
+	var property image = estadoActual.image()
+	const property vida = vidaCrash
 	
 	method salto() {
 		game.removeTickEvent("CORRER")
-		self.position(posicionSalto)
-		self.image(saltando.image())
-	}
-	
-	method estadoInicial() {
-		self.position(posicionInicial)
-		self.correr()
+		estadoActual = saltando
+		self.actualizarEstado()
 	}
 		
-	method cambiarEstado() {
+	method cambiarAProximoEstado() {
 		estadoActual = estadoActual.proximo()
+		self.actualizarEstado()
+	}
+	
+	method actualizarEstado(){
 		self.image(estadoActual.image())
+		self.position(estadoActual.position())
 	}
 	
 	method correr() {
-			game.onTick(100, "CORRER", {self.cambiarEstado()})
+			game.onTick(100, "CORRER", {self.cambiarAProximoEstado()})
 	}
 	
 	method validarSalto(){
-		if (self.position() == posicionSalto) {
+		if (self.position() == saltando.position()) {
 			throw new Exception(message ="Ya estoy saltando!")
 		}
 	}
@@ -41,7 +39,7 @@ object crash {
 	method saltar() {
 		self.validarSalto() 
 		self.salto()
-		game.schedule(800, {self.estadoInicial()})
+		game.schedule(800, {self.correr()})
 	}
 	
 	method puedoFortalecer() {
@@ -55,27 +53,31 @@ object crash {
 		}
 	}
 
-	method estaMuerto() {
+	method sinVida() {
 		return self.vida().contador() == 0
 	}
 	
 	method restarVida(cantidad) {
-		if (not self.estaMuerto()) {
+		if (not self.sinVida()) {
 		 	game.say(messagePoint, "Auch!")
 			self.vida().debilitar(cantidad)
 		}
 	}
 	
 	method morirSiCorresponde(){
-		if (self.estaMuerto()){
-			self.dejarDeCorrer()
-			drNeoCortex.vanagloriarse()
-			myScreen.gameOver()
+		if (self.sinVida()){
+			self.morir()
 		}
 	}
 	
+	method morir(){
+		estadoActual = muerte
+		self.dejarDeCorrer()
+		myScreen.gameOver()
+	}
+	
 	method dejarDeCorrer(){
-		image = muerte.image()
+		self.actualizarEstado()
 		game.removeTickEvent("CORRER")
 	}
 	
@@ -84,8 +86,7 @@ object crash {
 	}
 }
 
-
-
+//----------------------------------------------------------------
 object messagePoint {
 	method image() = 'empty.png'
 	method position() = crash.position().up(1)

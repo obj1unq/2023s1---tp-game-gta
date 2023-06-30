@@ -1,31 +1,30 @@
 import wollok.game.*
 
 object positionRandomizer {
-	const ultimaY = game.height()-1
-	const ultimaX= game.width()-1
-	const anchoTotal = game.width()/2..ultimaX
+	const alturaMaxima = game.height()-1
+	const anchoMaximo= game.width()-1
+	const anchoTotal = (game.width()/2)..anchoMaximo
 	
 	method nube(){
 		const alturas = [6,8,11]
-		return game.at(ultimaX, alturas.anyOne())
+		return game.at(anchoMaximo, alturas.anyOne())
 	}
 	
-	method bonus(){
-		return game.at(anchoTotal.anyOne(), ultimaY)
+	method cajas(){
+		return game.at(anchoTotal.anyOne(), alturaMaxima)
 	}
 }
 
-object positionFija {
-	const nivelDelPiso = 0
-	const sobreElPiso = 2
-	const ultimaX= game.width()-1
+object positionPiso {
+	const property alturaDelPiso = 2
+	const anchoMaximo= game.width()-1
 	
 	method nivelDelPiso(){
-		return game.at(ultimaX, nivelDelPiso)
+		return game.at(anchoMaximo, 0)
 	}
 	
 	method sobreElPiso(){
-		return game.at(ultimaX, sobreElPiso)
+		return game.at(anchoMaximo, alturaDelPiso)
 	}
 }
 

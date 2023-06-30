@@ -5,7 +5,7 @@ import obstaculos.*
 import cajas.*
 import vidas1.*
 import timer.*
-
+import efectos.*
 
 
 object myScreen {
@@ -22,12 +22,17 @@ object myScreen {
 		//personajes y acciones
 		
 		keyboard.s().onPressDo{
+			self.iniciarJuego()
+		}
+	}
+	
+	method iniciarJuego() {
 			game.clear()
 			self.addMainScreen()
+			crash.correr()
 			self.addEscenarioMovil()
 			self.agregarComandos()
 			game.onTick(1000, "CONTAR_TIEMPO", {timer.contarSegundo()})
-		}
 	}
 	
 	method addMainScreen(){
@@ -37,23 +42,18 @@ object myScreen {
 			game.addVisual(displayVidaCounter)
 			game.addVisual(timer)
 			game.addVisual(lifeBar)
-			crash.estadoInicial()
 			game.errorReporter(messagePoint)
 	}
 	
 	method reproducirMusica() {
-		//game.schedule(100, { => game.sound("crash_bandicoot_loading.mp3").play()})
 		const backgroundMusic = game.sound("crash_bandicoot_loading.mp3")
 		backgroundMusic.shouldLoop(true)
 		game.schedule(100, { backgroundMusic.play()} )
 		backgroundMusic.volume(0.1)
-
 	}
 		
 	method agregarComandos(){
 		keyboard.space().onPressDo{crash.saltar()}
-		
-		//keyboard.p().onPressDo{pausedScreen.togglePausedScreen()} TODO: decidir si va a tener pausa o no.
 	}
 	
 	method addEscenarioMovil(){
@@ -66,14 +66,14 @@ object myScreen {
 	}
 	
 	method congelarEscenario(){
-		//DUDA ESPERA UN INTERVALO PARA SACARLO???
 		game.removeTickEvent("GENERAR_NUBES")
 		game.removeTickEvent("GENERAR_CAJAS")
 		game.removeTickEvent("GENERAR_ELEMENTOS")
-		game.removeTickEvent("AVANZAR_ESCENARIO") //ERROR las cajas siguen avanzando
+		game.removeTickEvent("AVANZAR_ESCENARIO")
 	}
 	
 	method gameOver(){
+		drNeoCortex.vanagloriarse()
 		self.congelarEscenario()
 		game.schedule(3000, {lastScreen.endGame(); game.schedule(8000, {game.stop()})})
 	}
@@ -86,7 +86,6 @@ class Screen {
 	method position() = game.origin()
 }
 
-
 object startScreen inherits Screen{
 	override method image() = 'screen-start.png'		
 }
@@ -94,20 +93,6 @@ object startScreen inherits Screen{
 object mainScreen inherits Screen{
 	override method image() = '1.jpg'	
 }
-
-object pausedScreen inherits Screen {
-	override method image() = 'pause.png'
-	
-	method togglePausedScreen(){
-		if (not game.hasVisual(self)){
-			game.addVisual(self)
-			// TODO: DUDA: COMO DETENER AVANCE DE ESCENARIO Y GENERACION DE OBJ? o solo que la vida contador no lo contabilice?
-		} else {
-			game.removeVisual(self)
-		}
-	}
-}
-
 
 object lastScreen inherits Screen {
 	override method image() = 'screen-final.png'
