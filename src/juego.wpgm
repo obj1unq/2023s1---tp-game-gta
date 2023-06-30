@@ -1,8 +1,17 @@
 import wollok.game.*
-import pepita.*
+import screens.*
+import crash.*
+import escenario.*
+import obstaculos.*
+import cajas.*    
+import vidas1.*
 
 program juego {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+	
+	
+	//PANTALLA DE INICIO
+	myScreen.configInicial()
+	   
 	game.start()
 }
+   

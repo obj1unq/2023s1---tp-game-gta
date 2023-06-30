@@ -1,0 +1,63 @@
+import crash.*
+import estados.*
+import wollok.game.*
+
+describe " test de  posiciones de Crash  " {
+	
+	test " Crash corre y  no modifica su posicion inicial " {
+        
+        assert.equals(game.at(1,2),crash.position())
+        crash.correr()
+        assert.equals(game.at(1,2),crash.position())
+	}
+	
+	test " Crash salta y se  modifica su posicion inicial " {
+        
+        assert.equals(game.at(1,2),crash.position())
+        crash.salto()
+        assert.equals(game.at(1,5),crash.position())
+    }
+    
+    test "Crash salta y vuelve a su posicion inicial " {
+        
+        assert.equals(game.at(1,2),crash.position())
+        crash.correr()       
+        crash.salto()
+        assert.equals(game.at(1,5),crash.position())
+        crash.cambiarAProximoEstado() //vuelve a correr
+        assert.equals(game.at(1,2),crash.position())
+	}
+	
+	test "Crash no responde al comando Salto mientras esta en el aire"{
+		assert.equals(game.at(1,2),crash.position())
+        crash.correr()       
+        crash.salto()
+        assert.throwsExceptionWithMessage("Ya estoy saltando!",{crash.saltar()})
+        crash.correr()
+        assert.doesNotThrowException({crash.salto()})
+	}
+}
+
+describe " Test de  Estados de Crash" {
+	
+	test "Crash cambia su estado inicial cuando corre" {
+        
+        assert.equals(reposo,crash.estadoActual())      
+        crash.cambiarAProximoEstado()
+        assert.equals(pasoDerecho,crash.estadoActual())
+        crash.cambiarAProximoEstado()
+        assert.equals(pasoIzquierdo,crash.estadoActual())
+        crash.cambiarAProximoEstado()
+        assert.equals(reposo,crash.estadoActual())
+	}
+	
+	test "Mientras Crash salta su estado cambia a saltando y luego vuelve a reposo" {
+	
+	    assert.equals(reposo, crash.estadoActual())
+	    crash.correr()
+	    crash.salto()
+	    assert.equals(saltando,crash.estadoActual())
+	    crash.cambiarAProximoEstado() //vuelve a correr
+	    assert.equals(reposo,crash.estadoActual())
+	}
+}
